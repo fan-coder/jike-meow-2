@@ -4,6 +4,13 @@
   </div>
 </template>
 
+<script lang="ts">
+import { Component, Vue, Watch } from "vue-property-decorator";
+
+@Component
+export default class Home extends Vue {}
+</script>
+
 <style>
 * {
   margin: 0;
@@ -34,9 +41,13 @@ body {
   display: block;
   width: 350px;
   margin: auto;
-  font-family: -apple-system, BlinkMacSystemFont, PingFang SC, sans-serif;
-  color: #404040;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
   background: #fff;
+  min-width: 320px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;

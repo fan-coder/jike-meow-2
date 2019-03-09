@@ -160,47 +160,47 @@ export default class Home extends Vue {
   }
 
   // Storage token
-  // login(account: any) {
-  //   this.$confirm(`确认登录 ID 为「${account.screenName}」的账号吗？`, "提示", {
-  //     confirmButtonText: "确认",
-  //     cancelButtonText: "取消",
-  //     type: "warning"
-  //   })
-  //     .then(() => {
-  //       const idToken = account.idToken;
-  //       const accessToken = account.accessToken;
-  //       const refreshToken = account.refreshToken;
+  login(account: any) {
+    this.$confirm(`确认登录 ID 为「${account.screenName}」的账号吗？`, "提示", {
+      confirmButtonText: "确认",
+      cancelButtonText: "取消",
+      type: "warning"
+    })
+      .then(() => {
+        const idToken = account.idToken;
+        const accessToken = account.accessToken;
+        const refreshToken = account.refreshToken;
 
-  //       if (this.storageToken.length === 1) {
-  //         localStorage.setItem("idToken", idToken);
-  //         localStorage.setItem("accessToken", accessToken);
-  //         localStorage.setItem("refreshToken", refreshToken);
-  //         localStorage.removeItem("storageToken");
+        if (this.storageToken.length === 1) {
+          localStorage.setItem("idToken", idToken);
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", refreshToken);
+          localStorage.removeItem("storageToken");
 
-  //         this.$router.push("/me");
-  //       } else if (this.storageToken.length > 1) {
-  //         let NEW_STORAGE_TOKEN: Array<object> = [];
+          this.$router.push("/me");
+        } else if (this.storageToken.length > 1) {
+          let NEW_STORAGE_TOKEN: Array<object> = [];
 
-  //         this.storageToken.map((id: any, index) => {
-  //           if (idToken !== id.idToken) {
-  //             NEW_STORAGE_TOKEN.push(id);
-  //           } else {
-  //             localStorage.setItem("idToken", idToken);
-  //             localStorage.setItem("accessToken", accessToken);
-  //             localStorage.setItem("refreshToken", refreshToken);
-  //           }
-  //         });
+          this.storageToken.map((id: any, index) => {
+            if (idToken !== id.idToken) {
+              NEW_STORAGE_TOKEN.push(id);
+            } else {
+              localStorage.setItem("idToken", idToken);
+              localStorage.setItem("accessToken", accessToken);
+              localStorage.setItem("refreshToken", refreshToken);
+            }
+          });
 
-  //         localStorage.setItem(
-  //           "storageToken",
-  //           JSON.stringify(NEW_STORAGE_TOKEN)
-  //         );
+          localStorage.setItem(
+            "storageToken",
+            JSON.stringify(NEW_STORAGE_TOKEN)
+          );
 
-  //         this.$router.push("/me");
-  //       }
-  //     })
-  //     .catch(() => {});
-  // }
+          this.$router.push("/me");
+        }
+      })
+      .catch(() => {});
+  }
 }
 </script>
 <style scoped>

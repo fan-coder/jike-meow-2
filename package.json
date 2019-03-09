@@ -9,6 +9,8 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
+    "element-ui": "^2.4.5",
+    "lodash": "^4.17.11",
     "vue": "^2.6.6",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",
@@ -25,7 +27,10 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
     "typescript": "^3.2.1",
+    "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.5.21"
   },
   "eslintConfig": {

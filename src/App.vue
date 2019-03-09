@@ -52,4 +52,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
 }
+
+div.el-message {
+  min-width: 200px;
+  width: 90%;
+  max-width: 400px;
+}
+
+div.el-message-box {
+  width: 90%;
+}
 </style>

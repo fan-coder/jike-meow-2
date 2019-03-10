@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "即刻喵",
+  "version": "2.0.0",
+  "author": "coder-ysj",
+  "description": "可独立使用的「即刻」非官方浏览器插件.",
+
+  "incognito": "not_allowed",
+  "offline_enabled": false,
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "browser_action": {
+    "default_popup": "index.html"
+  },
+  "permissions": [
+    "activeTab",
+    "alarms",
+    "notifications",
+    "storage",
+    "tabs",
+    "<all_urls>"
+  ],
+
+  "icons": {
+    "16": "./ico/jk16.png",
+    "32": "./ico/jk32.png",
+    "48": "./ico/jk48.png",
+    "128": "./ico/jk128.png"
+  }
+}

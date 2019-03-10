@@ -39,6 +39,7 @@ a {
 
 body {
   display: block;
+  min-height: 500px;
   width: 350px;
   margin: auto;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
@@ -51,5 +52,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
+}
+
+div.el-message {
+  min-width: 200px;
+  width: 90%;
+  max-width: 400px;
+}
+
+div.el-message-box {
+  width: 90%;
 }
 </style>

@@ -39,6 +39,7 @@ a {
 
 body {
   display: block;
+  min-height: 500px;
   width: 350px;
   margin: auto;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",

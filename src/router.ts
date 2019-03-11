@@ -5,6 +5,8 @@ import func from "@/function";
 import LogIn from "@/views/LogIn.vue";
 import Recommend from "@/views/Recommend.vue";
 import Me from "@/views/Me.vue";
+import Following from "@/views/Following.vue";
+import Follower from "@/views/Follower.vue";
 
 Vue.use(Router);
 
@@ -27,6 +29,14 @@ const router = new Router({
     {
       path: "/me",
       component: Me
+    },
+    {
+      path: "/me/following",
+      component: Following
+    },
+    {
+      path: "/me/follower",
+      component: Follower
     }
   ]
 });

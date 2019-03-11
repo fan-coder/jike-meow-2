@@ -4,6 +4,7 @@ import api from "@/api";
 import func from "@/function";
 import LogIn from "@/views/LogIn.vue";
 import Recommend from "@/views/Recommend.vue";
+import Me from "@/views/Me.vue";
 
 Vue.use(Router);
 
@@ -22,6 +23,10 @@ const router = new Router({
     {
       path: "/recommend",
       component: Recommend
+    },
+    {
+      path: "/me",
+      component: Me
     }
   ]
 });

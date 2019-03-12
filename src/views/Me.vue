@@ -48,7 +48,7 @@
 
       <!-- Log Out -->
       <div class="me-button">
-        <button class="me-button me-button-warn" @click.self.stop="logOut()">退出登录</button>
+        <el-button type="danger" @click.stop="logOut()">退出登录</el-button>
       </div>
     </main>
   </div>
@@ -95,7 +95,8 @@ export default class Home extends Vue {
     this.$confirm("确认退出？", "注意", {
       confirmButtonText: "确认",
       cancelButtonText: "取消",
-      type: "warning"
+      type: "info",
+      iconClass: "el-icon-download"
     })
       .then(() => {
         const STORAGE_TOKEN = localStorage["storageToken"];
@@ -220,7 +221,7 @@ div.me-follow-item {
   padding: 10px;
   text-align: center;
   background-color: #efefef;
-  border-radius: 6px;
+  border-radius: 4px;
   transition: background-color 0.15s ease-in-out;
 }
 div.me-follow-item:hover {
@@ -250,23 +251,7 @@ div.me-button {
   padding: 0 30px;
   text-align: center;
 }
-button.me-button {
-  cursor: pointer;
-  display: block;
+button.el-button.el-button--danger {
   width: 100%;
-  margin: auto;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 2.8;
-  border: 0;
-  border-radius: 6px;
-  background-color: #ffe411;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-button.me-button.me-button-warn {
-  color: #fff;
-  background-color: #f44336;
 }
 </style>

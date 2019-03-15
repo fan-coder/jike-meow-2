@@ -20,8 +20,7 @@
             <span>{{ data.user.verifyMessage }}</span>
           </p>
         </div>
-        <!-- <button @click.self.stop="$router.push('/me/settings')"></button> -->
-        <button @click.self.stop="notReady"></button>
+        <button @click.self.stop="$router.push('/me/settings')"></button>
       </div>
 
       <!-- Bio -->
@@ -108,14 +107,6 @@ export default class Home extends Vue {
         this.$router.replace("/");
       })
       .catch(() => {});
-  }
-
-  notReady() {
-    Message({
-      message: "暂未开放",
-      type: "warning",
-      showClose: true
-    });
   }
 }
 </script>

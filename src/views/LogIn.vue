@@ -176,8 +176,6 @@ export default class Home extends Vue {
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
           localStorage.removeItem("storageToken");
-
-          this.$router.push("/me");
         } else if (this.storageToken.length > 1) {
           let NEW_STORAGE_TOKEN: Array<object> = [];
 
@@ -195,9 +193,9 @@ export default class Home extends Vue {
             "storageToken",
             JSON.stringify(NEW_STORAGE_TOKEN)
           );
-
-          this.$router.push("/me");
         }
+
+        this.$router.push("/me");
       })
       .catch(() => {});
   }
@@ -211,6 +209,7 @@ div.home {
   text-align: center;
   height: 500px;
   width: 100%;
+  overflow-y: auto;
 }
 
 div.home-center {

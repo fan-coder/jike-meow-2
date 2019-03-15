@@ -6,7 +6,7 @@
       <vue-loading type="bubbles" color="#404040" :size="{ width: '60px', height: '60px' }"></vue-loading>
     </main>
 
-    <main v-else ref="main">
+    <main v-else @scroll="scrollToLoadMore">
       <div class="follower-profile" v-for="(people, index) in data" :key="index">
         <!-- Avatar -->
         <i
@@ -43,7 +43,6 @@
         v-if="isLoadMoreKeyEnabled"
       ></vue-loading>
 
-      <!-- 空数据提示 -->
       <div class="follower-empty" v-if="!isGettingFollowerList && data.length <= 0">
         <div>
           <i></i>
@@ -100,23 +99,21 @@ export default class Home extends Vue {
 
     this.isGettingFollowerList = true;
     this.getFollowerList();
+  }
 
-    // Scroll to load more data
-    window.onscroll = () => {
-      const OFFSET_TOP = window.scrollY + window.innerHeight;
-      const FIRE_POINT = this.data.length * 80 - 300;
+  scrollToLoadMore(e: any) {
+    const OFFSET_TOP = e.target.scrollTop + 500;
+    const FIRE_POINT = this.data.length * 80;
 
-      if (OFFSET_TOP > FIRE_POINT) {
-        if (
-          this.isGettingFollowerList === true ||
-          this.isLoadingMoreKey === true ||
-          this.isLoadMoreKeyEnabled === false
-        )
-          return;
-
-        this.loadMoreData();
-      }
-    };
+    if (OFFSET_TOP > FIRE_POINT) {
+      if (
+        this.isGettingFollowerList === true ||
+        this.isLoadingMoreKey === true ||
+        this.isLoadMoreKeyEnabled === false
+      )
+        return;
+      this.loadMoreData();
+    }
   }
 
   loadMoreData() {
@@ -191,8 +188,10 @@ export default class Home extends Vue {
 <style scoped>
 main {
   display: block;
+  height: 500px;
   width: 100%;
   padding: 50px 0 15px 0;
+  overflow-y: auto;
 }
 
 div.vue-loading {

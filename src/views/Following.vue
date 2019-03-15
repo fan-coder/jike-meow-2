@@ -6,7 +6,7 @@
       <vue-loading type="bubbles" color="#404040" :size="{ width: '60px', height: '60px' }"></vue-loading>
     </main>
 
-    <main v-else ref="main">
+    <main v-else @scroll="scrollToLoadMore">
       <div class="following-profile" v-for="(people, index) in data" :key="index">
         <!-- Avatar -->
         <i
@@ -119,6 +119,21 @@ export default class Home extends Vue {
     };
   }
 
+  scrollToLoadMore(e: any) {
+    const OFFSET_TOP = e.target.scrollTop + 500;
+    const FIRE_POINT = this.data.length * 80;
+
+    if (OFFSET_TOP > FIRE_POINT) {
+      if (
+        this.isGettingFollowingList === true ||
+        this.isLoadingMoreKey === true ||
+        this.isLoadMoreKeyEnabled === false
+      )
+        return;
+      this.loadMoreData();
+    }
+  }
+
   loadMoreData() {
     if (!this.isLoadMoreKeyEnabled) return;
 
@@ -191,8 +206,10 @@ export default class Home extends Vue {
 <style scoped>
 main {
   display: block;
+  height: 500px;
   width: 100%;
   padding: 50px 0 15px 0;
+  overflow-y: auto;
 }
 
 div.vue-loading {

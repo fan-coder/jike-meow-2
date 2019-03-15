@@ -92,7 +92,7 @@ export default class Home extends Vue {
   }
 
   logOut() {
-    this.$confirm("确认退出？", "注意", {
+    this.$confirm("确认退出？", "警告", {
       confirmButtonText: "确认",
       cancelButtonText: "取消",
       type: "info",

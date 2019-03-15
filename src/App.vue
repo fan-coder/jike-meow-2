@@ -37,7 +37,7 @@ a {
 
 body {
   display: block;
-  min-height: 500px;
+  height: 500px;
   width: 350px;
   margin: auto;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
@@ -47,6 +47,7 @@ body {
   color: #000;
   background: #fff;
   min-width: 320px;
+  overflow: hidden;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;

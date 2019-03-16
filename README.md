@@ -1,6 +1,6 @@
 # 即刻喵 2.0
 
-基于 [Vue.js](https://cn.vuejs.org/index.html), [Vue CLI](https://cli.vuejs.org/zh/), [Socket.IO](https://socket.io), [即刻喵 1.x](https://github.com/coder-ysj/jike-meow) 重写.
+基于 [Vue.js](https://cn.vuejs.org/index.html), [Vue CLI](https://cli.vuejs.org/zh/), [即刻喵 1.x](https://github.com/coder-ysj/jike-meow) 重写.
 
 ## 得到保留的旧版特性
 
@@ -11,7 +11,7 @@
 ## 新版本特性 (待定)
 
 - 热门动态
-- 多账号切换
+- 多账号切换 (已实现)
 
 ## 开发进度 & 问题反馈
 

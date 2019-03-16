@@ -44,7 +44,6 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Message } from "element-ui";
 import QRCode from "qrcode";
 import api from "@/api";
 
@@ -120,7 +119,7 @@ export default class Home extends Vue {
             !RESPONSE["x-jike-access-token"] ||
             !RESPONSE["x-jike-refresh-token"]
           ) {
-            Message({
+            this.$message({
               message: "登录失败，或与官方数据更新有关",
               type: "warning"
             });
@@ -138,7 +137,7 @@ export default class Home extends Vue {
         }
       })
       .catch(() => {
-        Message.error("登录失败，请重新扫描二维码登录");
+        this.$message.error("登录失败，请重新扫描二维码登录");
         return;
       });
   }

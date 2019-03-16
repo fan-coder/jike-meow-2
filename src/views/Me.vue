@@ -55,7 +55,6 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Message } from "element-ui";
 import { setTimeout } from "timers";
 import api from "@/api";
 import func from "@/function";

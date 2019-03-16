@@ -108,6 +108,11 @@ export default class Home extends Vue {
       }
     });
 
+    if (CURRENT_ACCOUNT === {}) {
+      this.$message.error("无法缓存当前帐号");
+      return;
+    }
+
     this.$confirm("添加新账号会将当前账号临时注销，是否继续？", "警告", {
       confirmButtonText: "确认",
       cancelButtonText: "取消",
@@ -155,22 +160,35 @@ export default class Home extends Vue {
 
   login(account: any) {
     if (this.accountList.length <= 1) return;
+    // Unable to log in current user
     if (account.username === this.currentUsername) return;
 
-    if (confirm(`确认登录 ID 为「${account.screenName}」的账号吗？`) === true) {
-      let NEW_STORAGE_TOKEN: Array<object> = [];
-      this.accountList.map((id: any, index) => {
-        if (account.idToken !== id.idToken) {
-          id.idToken = NEW_STORAGE_TOKEN.push(id);
-        } else {
-          localStorage.setItem("idToken", account.idToken);
-          localStorage.setItem("accessToken", account.accessToken);
-          localStorage.setItem("refreshToken", account.refreshToken);
-        }
+    this.$confirm(`确认登录 ID 为「${account.screenName}」的账号吗？`, "警告", {
+      confirmButtonText: "登录",
+      cancelButtonText: "取消",
+      type: "warning"
+    })
+      .then(() => {
+        let NEW_STORAGE_TOKEN: Array<object> = [];
+        this.accountList.map((id: any, index) => {
+          // Filter other user sessions
+          if (account.idToken !== id.idToken) {
+            id.idToken = NEW_STORAGE_TOKEN.push(id);
+          } else {
+            // Store selected session to localStorage
+            localStorage.setItem("idToken", account.idToken);
+            localStorage.setItem("accessToken", account.accessToken);
+            localStorage.setItem("refreshToken", account.refreshToken);
+          }
+        });
+        // Restore sessions
+        localStorage.setItem("storageToken", JSON.stringify(NEW_STORAGE_TOKEN));
+
+        this.$router.push("/me");
+      })
+      .catch(() => {
+        return;
       });
-      localStorage.setItem("storageToken", JSON.stringify(NEW_STORAGE_TOKEN));
-      this.$router.push("/me");
-    }
   }
 }
 </script>

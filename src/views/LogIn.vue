@@ -44,7 +44,6 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Message } from "element-ui";
 import QRCode from "qrcode";
 import api from "@/api";
 
@@ -120,7 +119,7 @@ export default class Home extends Vue {
             !RESPONSE["x-jike-access-token"] ||
             !RESPONSE["x-jike-refresh-token"]
           ) {
-            Message({
+            this.$message({
               message: "登录失败，或与官方数据更新有关",
               type: "warning"
             });
@@ -138,7 +137,7 @@ export default class Home extends Vue {
         }
       })
       .catch(() => {
-        Message.error("登录失败，请重新扫描二维码登录");
+        this.$message.error("登录失败，请重新扫描二维码登录");
         return;
       });
   }
@@ -176,8 +175,6 @@ export default class Home extends Vue {
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
           localStorage.removeItem("storageToken");
-
-          this.$router.push("/me");
         } else if (this.storageToken.length > 1) {
           let NEW_STORAGE_TOKEN: Array<object> = [];
 
@@ -195,9 +192,9 @@ export default class Home extends Vue {
             "storageToken",
             JSON.stringify(NEW_STORAGE_TOKEN)
           );
-
-          this.$router.push("/me");
         }
+
+        this.$router.push("/me");
       })
       .catch(() => {});
   }
@@ -211,6 +208,7 @@ div.home {
   text-align: center;
   height: 500px;
   width: 100%;
+  overflow-y: auto;
 }
 
 div.home-center {

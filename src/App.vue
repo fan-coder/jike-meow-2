@@ -52,6 +52,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
 }
+body.dark {
+  color: #fff;
+  background: #323639;
+}
 
 div.el-message {
   min-width: 200px;

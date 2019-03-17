@@ -1,14 +1,19 @@
 <template>
-  <div class="me">
+  <div class="me" :class="{ dark: $store.state.isDarkMode }">
     <Header/>
 
     <main v-if="isGettingProfileData">
-      <vue-loading type="bubbles" color="#404040" :size="{ width: '60px', height: '60px' }"></vue-loading>
+      <vue-loading
+        type="bubbles"
+        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
+        :size="{ width: '60px', height: '60px' }"
+      ></vue-loading>
     </main>
 
     <main v-else>
       <div class="me-profile">
         <i
+          class="me-profile-avatar"
           :style="{backgroundImage: 'url(' + data.user.avatarImage.smallPicUrl + ')'}"
           :title="data.user.screenName"
         ></i>
@@ -20,7 +25,7 @@
             <span>{{ data.user.verifyMessage }}</span>
           </p>
         </div>
-        <button @click.self.stop="$router.push('/me/settings')"></button>
+        <i class="el-icon-refresh" @click.self.stop="$router.push('/me/settings')"></i>
       </div>
 
       <!-- Bio -->
@@ -44,6 +49,12 @@
           <p>粉丝</p>
           <span>{{ data.user.statsCount.followedCount > 99999 ? '99999+' : data.user.statsCount.followedCount }}</span>
         </div>
+      </div>
+
+      <!-- Dark Mode -->
+      <div class="me-dark-mode">
+        <span>夜间模式</span>
+        <el-switch v-model="$store.state.isDarkMode" active-color="#ffe411" @change="toggleTheme"></el-switch>
       </div>
 
       <!-- Log Out -->
@@ -91,6 +102,10 @@ export default class Home extends Vue {
       });
   }
 
+  toggleTheme(e: boolean) {
+    this.$store.commit("changeTheme", e);
+  }
+
   logOut() {
     this.$confirm("确认退出？", "警告", {
       confirmButtonText: "确认",
@@ -127,7 +142,7 @@ div.me-profile {
   font-size: 0;
   transition: background-color 0.3s ease-in-out;
 }
-div.me-profile > i {
+i.me-profile-avatar {
   display: inline-block;
   vertical-align: middle;
   height: 60px;
@@ -137,22 +152,24 @@ div.me-profile > i {
   border: 1px solid #e1e2e3;
   border-radius: 50%;
 }
+div.me.dark i.me-profile-avatar {
+  background-color: #262626;
+  border-color: #262626;
+}
 div.me-profile > div {
   display: inline-block;
   vertical-align: middle;
   width: calc(100% - 115px);
   margin-left: 20px;
 }
-div.me-profile > button {
+i.el-icon-refresh {
   cursor: pointer;
   display: block;
-  height: 30px;
   width: 30px;
   position: absolute;
-  top: 25px;
+  top: 27px;
   right: 30px;
-  background: url("../assets/switch.svg") center no-repeat;
-  background-size: 30px;
+  font-size: 26px;
 }
 p.me-profile-name {
   display: block;
@@ -201,6 +218,9 @@ div.me-bio {
   line-height: 1.6;
   color: #606060;
 }
+div.me.dark div.me-bio {
+  color: #e1e2e3;
+}
 div.me-bio > span {
   white-space: pre-wrap;
 }
@@ -224,6 +244,9 @@ div.me-follow-item {
   border-radius: 4px;
   transition: background-color 0.15s ease-in-out;
 }
+div.me.dark div.me-follow-item {
+  background-color: #262626;
+}
 div.me-follow-item:hover {
   background-color: #ffe411;
 }
@@ -241,6 +264,18 @@ div.me-follow-item > span {
   font-size: 18px;
   font-weight: 500;
   line-height: 1.6;
+}
+
+/* Dark Mode */
+div.me-dark-mode {
+  display: block;
+  width: 100%;
+  margin: 20px auto 0 auto;
+  padding: 0 30px;
+  text-align: right;
+}
+div.me-dark-mode > span {
+  margin-right: 10px;
 }
 
 /* Log Out */

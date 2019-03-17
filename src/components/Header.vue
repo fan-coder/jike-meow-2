@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="{ dark: $store.state.isDarkMode }">
     <router-link to="/recommend">
       <span>热门</span>
     </router-link>
@@ -33,6 +33,9 @@ header {
   background-color: #fff;
   z-index: 9;
 }
+header.dark {
+  background-color: #323639;
+}
 
 a {
   cursor: pointer;
@@ -63,5 +66,8 @@ span {
   line-height: 50px;
   color: #000;
   text-align: center;
+}
+header.dark span {
+  color: #fff;
 }
 </style>

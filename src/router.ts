@@ -4,6 +4,7 @@ import api from "@/api";
 import func from "@/function";
 import LogIn from "@/views/LogIn.vue";
 import Recommend from "@/views/Recommend.vue";
+import Notification from "@/views/Notification.vue";
 import Me from "@/views/Me.vue";
 import Settings from "@/views/Settings.vue";
 import Following from "@/views/Following.vue";
@@ -22,6 +23,10 @@ const router = new Router({
     {
       path: "/",
       component: LogIn
+    },
+    {
+      path: "/notifications",
+      component: Notification
     },
     {
       path: "/recommend",

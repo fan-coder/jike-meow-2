@@ -247,7 +247,9 @@ div.me-follow-item {
 div.me.dark div.me-follow-item {
   background-color: #262626;
 }
-div.me-follow-item:hover {
+div.me-follow-item:hover,
+div.me.dark div.me-follow-item:hover {
+  color: #000;
   background-color: #ffe411;
 }
 div.me-follow-item + div {

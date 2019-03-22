@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="{ dark: $store.state.isDarkMode }">
     <router-link to="/recommend">
       <span>热门</span>
     </router-link>
@@ -17,7 +17,9 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class Home extends Vue {}
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import "../element-variables.scss";
+
 header {
   display: block;
   height: 50px;
@@ -32,6 +34,9 @@ header {
   font-size: 0;
   background-color: #fff;
   z-index: 9;
+}
+header.dark {
+  background-color: #323639;
 }
 
 a {
@@ -53,7 +58,7 @@ a.router-link-exact-active::after {
   right: 50%;
   bottom: 0;
   transform: translateX(50%);
-  background-color: #ffe411;
+  background-color: $--color-primary;
 }
 
 span {
@@ -63,5 +68,8 @@ span {
   line-height: 50px;
   color: #000;
   text-align: center;
+}
+header.dark span {
+  color: #fff;
 }
 </style>

@@ -1,9 +1,13 @@
 <template>
-  <div class="settings">
+  <div class="settings" :class="{ dark: $store.state.isDarkMode }">
     <Back title="账号设置"/>
 
     <main v-if="isGettingProfileData">
-      <vue-loading type="bubbles" color="#404040" :size="{ width: '60px', height: '60px' }"></vue-loading>
+      <vue-loading
+        type="bubbles"
+        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
+        :size="{ width: '60px', height: '60px' }"
+      ></vue-loading>
     </main>
 
     <main ref="main" v-else>
@@ -31,7 +35,7 @@
 
       <!-- Cache New Account -->
       <i
-        class="settings-add-new-account"
+        class="el-icon-circle-plus"
         v-if="accountList.length <= 3"
         @click.self.stop="saveAccountToStorage()"
       ></i>
@@ -215,6 +219,9 @@ div.settings-profile.current {
   cursor: auto;
   background-color: #efefef;
 }
+div.settings.dark div.settings-profile.current {
+  background-color: #262626;
+}
 div.settings-profile > i {
   display: inline-block;
   vertical-align: middle;
@@ -224,6 +231,10 @@ div.settings-profile > i {
   background-size: cover;
   border: 1px solid #e1e2e3;
   border-radius: 50%;
+}
+div.settings.dark div.settings-profile > i {
+  background-color: #262626;
+  border-color: #262626;
 }
 div.settings-profile > div {
   display: inline-block;
@@ -270,14 +281,13 @@ p.settings-profile-title > span {
 }
 
 /* Cache New Account */
-i.settings-add-new-account {
+i.el-icon-circle-plus {
   cursor: pointer;
   display: block;
-  height: 34px;
-  width: 34px;
   margin: 20px auto 15px auto;
-  background: url("../assets/add.svg") center no-repeat;
-  background-size: 100%;
+  font-size: 34px;
+  line-height: 34px;
+  width: 34px;
   border: 0;
   border-radius: 50%;
 }

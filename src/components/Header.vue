@@ -17,7 +17,9 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class Home extends Vue {}
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import "../element-variables.scss";
+
 header {
   display: block;
   height: 50px;
@@ -56,7 +58,7 @@ a.router-link-exact-active::after {
   right: 50%;
   bottom: 0;
   transform: translateX(50%);
-  background-color: #ffe411;
+  background-color: $--color-primary;
 }
 
 span {

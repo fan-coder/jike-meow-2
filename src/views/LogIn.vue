@@ -304,6 +304,7 @@ div.home.dark p.home-center-tips > span {
   color: #999;
 }
 p.home-center-tips > span.display {
+  color: #000;
   text-decoration: none;
 }
 div.home.dark p.home-center-tips > span.display {

@@ -54,7 +54,7 @@
       <!-- Dark Mode -->
       <div class="me-dark-mode">
         <span>夜间模式</span>
-        <el-switch v-model="$store.state.isDarkMode" active-color="#ffe411" @change="toggleTheme"></el-switch>
+        <el-switch v-model="$store.state.isDarkMode" @change="toggleTheme"></el-switch>
       </div>
 
       <!-- Log Out -->
@@ -115,9 +115,13 @@ export default class Home extends Vue {
     })
       .then(() => {
         const STORAGE_TOKEN = localStorage["storageToken"];
+        const THEME = localStorage["theme"];
+
         localStorage.clear();
+
         if (STORAGE_TOKEN && STORAGE_TOKEN.length > 0)
           localStorage.setItem("storageToken", STORAGE_TOKEN);
+        if (THEME && THEME.length > 0) localStorage.setItem("theme", THEME);
         this.$router.replace("/");
       })
       .catch(() => {});

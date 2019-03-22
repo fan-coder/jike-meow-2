@@ -1,7 +1,7 @@
 <template>
-  <header>
+  <header :class="{ dark: $store.state.isDarkMode }">
     <router-link to="/me">
-      <i class="back"></i>
+      <i class="el-icon-back"></i>
     </router-link>
     <p>{{ title }}</p>
   </header>
@@ -30,6 +30,9 @@ header {
   text-align: left;
   z-index: 9;
 }
+header.dark {
+  background-color: #323639;
+}
 
 a {
   cursor: pointer;
@@ -40,14 +43,17 @@ a {
 }
 
 i {
+  cursor: pointer;
   display: block;
   height: 50px;
   width: 50px;
-  background: center no-repeat;
+  margin-left: 20px;
+  font-size: 20px;
+  line-height: 50px;
+  color: #000;
 }
-i.back {
-  background-image: url("../assets/return.svg");
-  background-size: 25px;
+header.dark i {
+  color: #fff;
 }
 
 p {

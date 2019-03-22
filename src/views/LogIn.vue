@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" :class="{ dark: $store.state.isDarkMode }">
     <div class="home-center">
       <p class="home-center-title">扫描下方二维码登录</p>
 
@@ -7,7 +7,7 @@
         <vue-loading
           v-if="isQRcodeGenerating"
           type="bubbles"
-          color="#404040"
+          :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
           :size="{ width: '60px', height: '60px' }"
         ></vue-loading>
         <img class="home-center-qr-src" v-if="dataQRcode" :src="dataQRcode">
@@ -44,7 +44,6 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Message } from "element-ui";
 import QRCode from "qrcode";
 import api from "@/api";
 
@@ -120,7 +119,7 @@ export default class Home extends Vue {
             !RESPONSE["x-jike-access-token"] ||
             !RESPONSE["x-jike-refresh-token"]
           ) {
-            Message({
+            this.$message({
               message: "登录失败，或与官方数据更新有关",
               type: "warning"
             });
@@ -138,7 +137,7 @@ export default class Home extends Vue {
         }
       })
       .catch(() => {
-        Message.error("登录失败，请重新扫描二维码登录");
+        this.$message.error("登录失败，请重新扫描二维码登录");
         return;
       });
   }
@@ -176,8 +175,6 @@ export default class Home extends Vue {
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
           localStorage.removeItem("storageToken");
-
-          this.$router.push("/me");
         } else if (this.storageToken.length > 1) {
           let NEW_STORAGE_TOKEN: Array<object> = [];
 
@@ -195,9 +192,9 @@ export default class Home extends Vue {
             "storageToken",
             JSON.stringify(NEW_STORAGE_TOKEN)
           );
-
-          this.$router.push("/me");
         }
+
+        this.$router.push("/me");
       })
       .catch(() => {});
   }
@@ -211,6 +208,7 @@ div.home {
   text-align: center;
   height: 500px;
   width: 100%;
+  overflow-y: auto;
 }
 
 div.home-center {
@@ -219,8 +217,6 @@ div.home-center {
   max-width: 280px;
   margin: auto;
   padding: 30px;
-  background: #fff;
-  border-radius: 8px;
 }
 
 /* 标题 */
@@ -285,6 +281,7 @@ div.home-center-qr-hover > span {
   font-weight: 500;
   line-height: 1.8;
   padding: 10px 15px;
+  color: #000;
   background-color: #fff;
   border: 1px solid #e1e2e3;
 }
@@ -297,16 +294,21 @@ p.home-center-tips {
   font-size: 14px;
   font-weight: 500;
   line-height: 1.6;
-  color: #000;
   text-align: left;
 }
 p.home-center-tips > span {
   color: #cdcdcd;
   text-decoration: line-through;
 }
+div.home.dark p.home-center-tips > span {
+  color: #999;
+}
 p.home-center-tips > span.display {
   color: #000;
   text-decoration: none;
+}
+div.home.dark p.home-center-tips > span.display {
+  color: #fff;
 }
 
 /* 缓存账号检测 */
@@ -335,5 +337,9 @@ div.home-center-storage-account > i {
   border-radius: 50%;
   background: center no-repeat;
   background-size: cover;
+}
+div.home.dark div.home-center-storage-account > i {
+  background-color: #262626;
+  border-color: #262626;
 }
 </style>

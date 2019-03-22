@@ -3,8 +3,28 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {}
+const store = new Vuex.Store({
+  state: {
+    isDarkMode: false
+  },
+  mutations: {
+    changeTheme(state, payload = false) {
+      state.isDarkMode = payload;
+      if (state.isDarkMode === false) {
+        document.body.className = "";
+        localStorage.setItem("theme", "light");
+        return;
+      }
+      document.body.className = "dark";
+      localStorage.setItem("theme", "dark");
+    }
+  }
 });
+
+// Change default theme config
+const THEME = localStorage["theme"];
+if (THEME && THEME === "dark") {
+  store.commit("changeTheme", true);
+}
+
+export default store;

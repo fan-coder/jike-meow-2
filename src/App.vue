@@ -52,6 +52,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
 }
+body.dark {
+  color: #fff;
+  background: #323639;
+}
 
 div.el-message {
   min-width: 200px;
@@ -59,41 +63,22 @@ div.el-message {
   max-width: 400px;
 }
 
-div.el-message-box {
-  width: 90%;
-  max-width: 400px;
+body.dark div.el-message-box {
+  background-color: #323639;
+  border-color: #323639;
 }
-
-button.el-button {
-  color: #000;
-  border-color: #efefef;
-}
-button.el-button.el-button--primary {
-  color: #000;
-  background-color: #ffe411;
-  border-color: #ffe411;
-}
-button.el-button.el-button--danger {
-  color: #fff;
-  background-color: #f44336;
-  border-color: #f44336;
-}
-button.el-button:hover,
-button.el-button:focus {
+div.el-message-box button.el-button {
   color: #000;
   background-color: #fff;
-  border-color: #efefef;
 }
-button.el-button.el-button--primary:hover,
-button.el-button.el-button--primary:focus {
-  color: #000;
+div.el-message-box button.el-button--primary {
   background-color: #ffe411;
   border-color: #ffe411;
 }
-button.el-button.el-button--danger:hover,
-button.el-button.el-button--danger:focus {
+body.dark div.el-message-box__title {
   color: #fff;
-  background-color: #f44336;
-  border-color: #f44336;
+}
+body.dark div.el-message-box__content {
+  color: #e1e2e3;
 }
 </style>

@@ -1,9 +1,13 @@
 <template>
-  <div class="follower">
+  <div class="follower" :class="{ dark: $store.state.isDarkMode }">
     <Back title="关注我的人"/>
 
     <main v-if="isGettingFollowerList">
-      <vue-loading type="bubbles" color="#404040" :size="{ width: '60px', height: '60px' }"></vue-loading>
+      <vue-loading
+        type="bubbles"
+        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
+        :size="{ width: '60px', height: '60px' }"
+      ></vue-loading>
     </main>
 
     <main v-else @scroll="scrollToLoadMore">
@@ -37,8 +41,8 @@
 
       <vue-loading
         type="bubbles"
-        color="#404040"
         style="margin-top: 0;"
+        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
         :size="{ width: '60px', height: '60px' }"
         v-if="isLoadMoreKeyEnabled"
       ></vue-loading>
@@ -216,6 +220,10 @@ div.follower-profile > i {
   border: 1px solid #e1e2e3;
   border-radius: 50%;
 }
+div.follower.dark div.follower-profile > i {
+  background-color: #262626;
+  border-color: #262626;
+}
 div.follower-profile > i.isVerified::after {
   content: "";
   position: absolute;
@@ -247,9 +255,16 @@ div.follower-profile > button {
   border-radius: 30px;
   text-align: center;
 }
+div.follower.dark div.follower-profile > button {
+  background-color: #262626;
+}
 div.follower-profile > button:hover {
   background-color: #909090;
 }
+div.follower.dark div.follower-profile > button:hover {
+  background-color: #888;
+}
+div.follower.dark div.follower-profile > button.notFollowing,
 div.follower-profile > button.notFollowing {
   color: #000;
   background-color: #ffe411;
@@ -316,6 +331,9 @@ div.follower-full-data {
   width: 100%;
   padding: 15px 0 30px 0;
   box-shadow: 0px -30px 15px 0 rgba(255, 255, 255, 1);
+}
+div.follower.dark div.follower-full-data {
+  box-shadow: 0px -30px 15px 0 rgba(50, 54, 57, 1);
 }
 div.follower-full-data i {
   display: block;

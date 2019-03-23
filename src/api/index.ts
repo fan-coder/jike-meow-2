@@ -18,6 +18,19 @@ export default {
         "x-jike-access-token": localStorage["accessToken"]
       }
     }),
+  getNotificationList: (loadMoreKey: object) =>
+    axios.post(
+      "/1.0/notifications/list",
+      {
+        loadMoreKey: loadMoreKey
+      },
+      {
+        headers: {
+          "x-jike-access-token": localStorage["accessToken"],
+          "app-version": "5.6.2"
+        }
+      }
+    ),
   getFollowingList: (loadMoreKey: string, username: any) =>
     axios.post(
       "/1.0/userRelation/getFollowingList",

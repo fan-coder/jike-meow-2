@@ -131,8 +131,10 @@ export default class Home extends Vue {
 <style scoped>
 main {
   display: block;
+  height: 500px;
   width: 100%;
   padding: 50px 0 20px 0;
+  overflow-y: auto;
 }
 
 div.vue-loading {

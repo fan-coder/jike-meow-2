@@ -19,7 +19,7 @@ export default {
         }
       })
       .catch(() => {
-        Message("授权过期，请重新登录");
+        Message.error("授权过期，请重新登录");
         localStorage.clear();
         router.push("/");
       });

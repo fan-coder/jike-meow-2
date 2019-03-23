@@ -3,7 +3,7 @@ import Router from "vue-router";
 import api from "@/api";
 import func from "@/function";
 import LogIn from "@/views/LogIn.vue";
-import Recommend from "@/views/Recommend.vue";
+import Tools from "@/views/Tools.vue";
 import Notification from "@/views/Notification.vue";
 import Me from "@/views/Me.vue";
 import Settings from "@/views/Settings.vue";
@@ -29,8 +29,8 @@ const router = new Router({
       component: Notification
     },
     {
-      path: "/recommend",
-      component: Recommend
+      path: "/tools",
+      component: Tools
     },
     {
       path: "/me",

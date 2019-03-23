@@ -15,7 +15,12 @@
         <LikeAvatar v-if="item.type === 'LIKE_AVATAR'" :data="item"/>
         <!-- <LikePost v-else-if="item.type === ''"/> -->
         <!-- <LikeReply v-else-if="item.type === ''"/> -->
-        <UserFollowed v-else-if="item.type === 'USER_FOLLOWED'" :data="item"/>
+        <UserFollowed
+          v-else-if="item.type === 'USER_FOLLOWED'"
+          :data="item"
+          v-on:follow="follow(item)"
+          v-on:unfollow="unfollow(item)"
+        />
         <Repost v-else-if="item.type === 'REPOST'" :data="item"/>
         <Unknown v-else/>
       </div>
@@ -72,6 +77,28 @@ export default class Home extends Vue {
           func.refreshToken(this.getNotificationList());
         }
       });
+  }
+
+  follow(item: any) {
+    api.follow(item.actionItem.users[0].username).then((res: any) => {
+      const RESPONSE = res.data;
+
+      if (RESPONSE.success === true) {
+        item.actionItem.users[0].following = true;
+        return;
+      }
+    });
+  }
+
+  unfollow(item: any) {
+    api.unfollow(item.actionItem.users[0].username).then((res: any) => {
+      const RESPONSE = res.data;
+
+      if (RESPONSE.success === true) {
+        item.actionItem.users[0].following = false;
+        return;
+      }
+    });
   }
 }
 </script>

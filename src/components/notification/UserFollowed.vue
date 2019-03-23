@@ -18,8 +18,8 @@
       <div class="time">{{ data.createdAt | reformatTime }}</div>
     </div>
     <div class="right">
-      <button v-if="data.actionItem.users[0].following">已关注</button>
-      <button class="notFollowing" v-else>关注</button>
+      <button v-if="data.actionItem.users[0].following" @click.self.stop="$emit('unfollow')"></button>
+      <button class="notFollowing" v-else @click.self.stop="$emit('follow')"></button>
     </div>
   </div>
 </template>
@@ -132,7 +132,19 @@ button {
   cursor: pointer;
   display: inline-block;
   vertical-align: middle;
+  height: 30px;
   width: 100%;
+  background-color: transparent;
+  text-align: center;
+}
+button::after {
+  content: "已关注";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   font-size: 13px;
   font-weight: 500;
   line-height: 30px;
@@ -141,24 +153,28 @@ button {
   border-radius: 30px;
   text-align: center;
 }
-button:hover {
+button:hover::after {
+  content: "取消关注";
   background-color: #909090;
 }
-div.follower.dark button {
+div.follower.dark button::after {
   background-color: #262626;
 }
-div.follower.dark button:hover {
+div.follower.dark button:hover::after {
   background-color: #888;
 }
-button.notFollowing {
+button.notFollowing::after {
   color: #000;
   background-color: #ffe411;
 }
-div.follower.dark button.notFollowing {
-  background-color: #ffe411;
-}
-button.notFollowing:hover {
+div.follower.dark button.notFollowing::after {
   color: #000;
   background-color: #ffe411;
+}
+button.notFollowing::after {
+  content: "关注";
+}
+button.notFollowing:hover::after {
+  content: "关注";
 }
 </style>

@@ -14,6 +14,11 @@
           :href="`https://web.okjike.com/user/${data.actionItem.users[0].username}/post`"
           target="_blank"
         >{{ data.actionItem.users[0].screenName }}</a> 关注了你
+        <span
+          class="content"
+          v-if="!data.actionItem.users[0].isVerified"
+        >{{ data.actionItem.users[0].briefIntro }}</span>
+        <span class="content" v-else>{{ data.actionItem.users[0].verifyMessage }}</span>
       </div>
       <div class="time">{{ data.createdAt | reformatTime }}</div>
     </div>
@@ -112,6 +117,17 @@ div.text > a {
 }
 div.follower.dark div.text > a {
   color: #fff;
+}
+span.content {
+  display: block;
+  width: 100%;
+  margin-top: 3px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* 中间时间 */

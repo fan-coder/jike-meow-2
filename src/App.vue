@@ -81,4 +81,9 @@ body.dark div.el-message-box__title {
 body.dark div.el-message-box__content {
   color: #e1e2e3;
 }
+
+img.alert-image {
+  display: block;
+  width: 100%;
+}
 </style>

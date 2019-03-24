@@ -2,28 +2,36 @@
   <div class="liked" :class="{ dark: $store.state.isDarkMode }">
     <div class="left">
       <div class="text">
-        <a href>盐酥鸡一号</a>、
-        <a href>盐酥鸡二号</a> 等 20 人赞了你的动态
+        <a
+          v-for="user in data.actionItem.users"
+          :key="user.id"
+          :href="`https://web.okjike.com/user/${user.username}/post`"
+          target="_blank"
+        >{{ user.screenName }}</a>&nbsp;
+        <span v-if="data.actionItem.usersCount >= 3">等 {{ data.actionItem.usersCount }} 人</span>
+        <span>赞了你的评论</span>
       </div>
       <div class="avatars">
-        <i></i>
-        <i></i>
-        <i></i>
-        <i></i>
+        <i
+          v-for="avatar in data.actionItem.users"
+          :key="avatar.id"
+          :style="{backgroundImage: 'url(' + avatar.profileImageUrl + ')'}"
+          :class="{ isVerified: avatar.isVerified }"
+        ></i>
       </div>
-      <div class="time">2分钟前</div>
+      <div class="time">{{ data.createdAt | reformatTime }}</div>
     </div>
     <div class="right">
-      <i class="avatar">
-        <img src="https://cdn.ruguoapp.com/FiiKk55tVS9eKRY7EIW8i-4d7Sma.jpg">
-      </i>
+      <meow-nr-content :content="data.referenceItem.content"/>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-@Component
+@Component({
+  props: ["data"]
+})
 export default class Home extends Vue {}
 </script>
 <style scoped>
@@ -66,6 +74,9 @@ div.liked.dark div.text {
 div.text > a {
   color: #000;
 }
+div.text > a + a::before {
+  content: "、";
+}
 div.liked.dark div.text > a {
   color: #fff;
 }
@@ -85,6 +96,16 @@ div.avatars > i {
   border-radius: 50%;
   background: #e1e2e3 center no-repeat;
   background-size: cover;
+}
+div.avatars > i.isVerified::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  height: 11px;
+  width: 11px;
+  background: url("../../assets/verified.svg") center no-repeat;
+  background-size: 100%;
 }
 div.liked.dark div.avatars > i {
   border-color: #323639;

@@ -12,14 +12,25 @@
 
     <main v-else>
       <div v-for="item in notificationList" :key="item.id">
-        <LikeAvatar v-if="item.type === 'LIKE_AVATAR'" :data="item"/>
-        <!-- <LikePost v-else-if="item.type === ''"/> -->
-        <!-- <LikeReply v-else-if="item.type === ''"/> -->
+        <AnswerQuestion v-if="item.type === 'ANSWER_QUESTION'" :data="item"/>
+        <CommentPersonalUpdate v-else-if="item.type === 'COMMENT_PERSONAL_UPDATE'" :data="item"/>
+        <LikeAvatar v-else-if="item.type === 'LIKE_AVATAR'" :data="item"/>
+        <LikePersonalUpdate v-else-if="item.type === 'LIKE_PERSONAL_UPDATE'" :data="item"/>
+        <LikePersonalUpdateComment
+          v-else-if="item.type === 'LIKE_PERSONAL_UPDATE_COMMENT'"
+          :data="item"
+        />
+        <LikeQuestion v-else-if="item.type === 'LIKE_QUESTION'" :data="item"/>
         <UserFollowed
           v-else-if="item.type === 'USER_FOLLOWED'"
           :data="item"
           v-on:follow="follow(item)"
           v-on:unfollow="unfollow(item)"
+        />
+        <RepliedToPersonalUpdateComment
+          v-else-if="item.type === 'REPLIED_TO_PERSONAL_UPDATE_COMMENT'"
+          :data="item"
+          v-on:enlargeImage="enlargeImage(item)"
         />
         <Repost v-else-if="item.type === 'REPOST'" :data="item"/>
         <Unknown v-else/>
@@ -33,22 +44,30 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import api from "@/api";
 import func from "@/function";
 import Header from "@/components/Header.vue";
+import AnswerQuestion from "@/components/notification/AnswerQuestion.vue";
+import CommentPersonalUpdate from "@/components/notification/CommentPersonalUpdate.vue";
 import LikeAvatar from "@/components/notification/LikeAvatar.vue";
-import LikePost from "@/components/notification/LikePost.vue";
-import LikeReply from "@/components/notification/LikeReply.vue";
-import UserFollowed from "@/components/notification/UserFollowed.vue";
+import LikePersonalUpdate from "@/components/notification/LikePersonalUpdate.vue";
+import LikePersonalUpdateComment from "@/components/notification/LikePersonalUpdateComment.vue";
+import LikeQuestion from "@/components/notification/LikeQuestion.vue";
+import RepliedToPersonalUpdateComment from "@/components/notification/RepliedToPersonalUpdateComment.vue";
 import Repost from "@/components/notification/Repost.vue";
 import Unknown from "@/components/notification/Unknown.vue";
+import UserFollowed from "@/components/notification/UserFollowed.vue";
 
 @Component({
   components: {
     Header,
+    AnswerQuestion,
+    CommentPersonalUpdate,
     LikeAvatar,
-    LikePost,
-    LikeReply,
-    UserFollowed,
+    LikePersonalUpdate,
+    LikePersonalUpdateComment,
+    LikeQuestion,
+    RepliedToPersonalUpdateComment,
     Repost,
-    Unknown
+    Unknown,
+    UserFollowed
   }
 })
 export default class Home extends Vue {
@@ -77,6 +96,23 @@ export default class Home extends Vue {
           func.refreshToken(this.getNotificationList());
         }
       });
+  }
+
+  enlargeImage(item: any) {
+    this.$alert(
+      `<img class='alert-image' src='${
+        item.actionItem.pictures[0].middlePicUrl
+      }'>`,
+      "",
+      {
+        dangerouslyUseHTMLString: true,
+        closeOnClickModal: true,
+        showClose: false,
+        confirmButtonText: "关闭"
+      }
+    )
+      .then(() => {})
+      .catch(action => {});
   }
 
   follow(item: any) {

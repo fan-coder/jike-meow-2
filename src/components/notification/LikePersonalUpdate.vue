@@ -3,22 +3,30 @@
     <div class="left">
       <div class="text">
         <a
-          :href="`https://web.okjike.com/user/${data.actionItem.users[0].username}/post`"
+          v-for="user in data.actionItem.users"
+          :key="user.id"
+          :href="`https://web.okjike.com/user/${user.username}/post`"
           target="_blank"
-        >{{ data.actionItem.users[0].screenName }}</a> 赞了你的头像
+        >{{ user.screenName }}</a>&nbsp;
+        <span v-if="data.actionItem.usersCount >= 3">等 {{ data.actionItem.usersCount }} 人</span>
+        <span>赞了你的动态</span>
       </div>
       <div class="avatars">
         <i
-          :style="{backgroundImage: 'url(' + data.actionItem.users[0].profileImageUrl + ')'}"
-          :class="{ isVerified: data.actionItem.users[0].isVerified }"
+          v-for="avatar in data.actionItem.users"
+          :key="avatar.id"
+          :style="{backgroundImage: 'url(' + avatar.profileImageUrl + ')'}"
+          :class="{ isVerified: avatar.isVerified }"
         ></i>
       </div>
       <div class="time">{{ data.createdAt | reformatTime }}</div>
     </div>
     <div class="right">
-      <i class="avatar">
-        <img :src="data.referenceItem.referenceImageUrl">
-      </i>
+      <meow-nr-image
+        v-if="data.referenceItem.referenceImageUrl"
+        :image="data.referenceItem.referenceImageUrl"
+      />
+      <meow-nr-content v-else :content="data.referenceItem.content"/>
     </div>
   </div>
 </template>
@@ -70,6 +78,9 @@ div.liked.dark div.text {
 div.text > a {
   color: #000;
 }
+div.text > a + a::before {
+  content: "、";
+}
 div.liked.dark div.text > a {
   color: #fff;
 }
@@ -85,7 +96,7 @@ div.avatars > i {
   vertical-align: middle;
   height: 30px;
   width: 30px;
-  border: 1px solid #e1e2e3;
+  border: 2px solid #fff;
   border-radius: 50%;
   background: #e1e2e3 center no-repeat;
   background-size: cover;
@@ -93,16 +104,19 @@ div.avatars > i {
 div.avatars > i.isVerified::after {
   content: "";
   position: absolute;
-  right: -2px;
+  right: -1px;
   bottom: -1px;
-  height: 12px;
-  width: 12px;
+  height: 11px;
+  width: 11px;
   background: url("../../assets/verified.svg") center no-repeat;
   background-size: 100%;
 }
 div.liked.dark div.avatars > i {
-  border-color: #262626;
+  border-color: #323639;
   background-color: #262626;
+}
+div.avatars > i:first-child {
+  margin-left: -2px;
 }
 div.avatars > i + i {
   margin-left: -5px;

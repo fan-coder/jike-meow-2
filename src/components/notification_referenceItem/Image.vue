@@ -24,7 +24,7 @@ div.image > img {
   height: 70px;
   width: 70px;
   border: 1px solid #e1e2e3;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 div.image.dark > img {
   border-color: #262626;

@@ -21,6 +21,7 @@
           :data="item"
         />
         <LikeQuestion v-else-if="item.type === 'LIKE_QUESTION'" :data="item"/>
+        <Mention v-else-if="item.type === 'MENTION'" :data="item"/>
         <UserFollowed
           v-else-if="item.type === 'USER_FOLLOWED'"
           :data="item"
@@ -38,7 +39,6 @@
     </main>
   </div>
 </template>
-
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import api from "@/api";
@@ -50,6 +50,7 @@ import LikeAvatar from "@/components/notification/LikeAvatar.vue";
 import LikePersonalUpdate from "@/components/notification/LikePersonalUpdate.vue";
 import LikePersonalUpdateComment from "@/components/notification/LikePersonalUpdateComment.vue";
 import LikeQuestion from "@/components/notification/LikeQuestion.vue";
+import Mention from "@/components/notification/Mention.vue";
 import RepliedToPersonalUpdateComment from "@/components/notification/RepliedToPersonalUpdateComment.vue";
 import Repost from "@/components/notification/Repost.vue";
 import Unknown from "@/components/notification/Unknown.vue";
@@ -64,6 +65,7 @@ import UserFollowed from "@/components/notification/UserFollowed.vue";
     LikePersonalUpdate,
     LikePersonalUpdateComment,
     LikeQuestion,
+    Mention,
     RepliedToPersonalUpdateComment,
     Repost,
     Unknown,
@@ -99,7 +101,7 @@ export default class Home extends Vue {
   }
 
   enlargeImage(item: any) {
-    this.$alert(
+    this.$confirm(
       `<img class='alert-image' src='${
         item.actionItem.pictures[0].middlePicUrl
       }'>`,
@@ -107,12 +109,15 @@ export default class Home extends Vue {
       {
         dangerouslyUseHTMLString: true,
         closeOnClickModal: true,
-        showClose: false,
-        confirmButtonText: "关闭"
+        showClose: true,
+        confirmButtonText: "查看原图",
+        cancelButtonText: "关闭"
       }
     )
-      .then(() => {})
-      .catch(action => {});
+      .then(() => {
+        window.open(item.actionItem.pictures[0].picUrl);
+      })
+      .catch(() => {});
   }
 
   follow(item: any) {
@@ -138,7 +143,6 @@ export default class Home extends Vue {
   }
 }
 </script>
-
 <style scoped>
 main {
   display: block;

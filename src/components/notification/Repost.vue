@@ -21,7 +21,7 @@
     </div>
     <div class="right">
       <meow-nr-content
-        v-if="data.referenceItem.type === 'QUESTION'"
+        v-if="!data.referenceItem.referenceImageUrl"
         :content="data.referenceItem.content"
       />
       <meow-nr-image v-else/>

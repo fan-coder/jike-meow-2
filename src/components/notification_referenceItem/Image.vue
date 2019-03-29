@@ -25,6 +25,7 @@ div.image > img {
   width: 70px;
   border: 1px solid #e1e2e3;
   border-radius: 4px;
+  object-fit: cover;
 }
 div.image.dark > img {
   border-color: #262626;

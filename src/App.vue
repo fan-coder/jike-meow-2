@@ -63,10 +63,6 @@ div.el-message {
   max-width: 400px;
 }
 
-body.dark div.el-message-box {
-  background-color: #323639;
-  border-color: #323639;
-}
 div.el-message-box button.el-button {
   color: #000;
   background-color: #fff;
@@ -74,12 +70,6 @@ div.el-message-box button.el-button {
 div.el-message-box button.el-button--primary {
   background-color: #ffe411;
   border-color: #ffe411;
-}
-body.dark div.el-message-box__title {
-  color: #fff;
-}
-body.dark div.el-message-box__content {
-  color: #e1e2e3;
 }
 
 img.alert-image {

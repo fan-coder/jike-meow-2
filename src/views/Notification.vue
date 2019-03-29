@@ -34,6 +34,7 @@
           v-on:enlargeImage="enlargeImage(item)"
         />
         <Repost v-else-if="item.type === 'REPOST'" :data="item"/>
+        <UpvoteAnswer v-else-if="item.type === 'UPVOTE_ANSWER'" :data="item"/>
         <Unknown v-else/>
       </div>
     </main>
@@ -54,6 +55,7 @@ import Mention from "@/components/notification/Mention.vue";
 import RepliedToPersonalUpdateComment from "@/components/notification/RepliedToPersonalUpdateComment.vue";
 import Repost from "@/components/notification/Repost.vue";
 import Unknown from "@/components/notification/Unknown.vue";
+import UpvoteAnswer from "@/components/notification/UpvoteAnswer.vue";
 import UserFollowed from "@/components/notification/UserFollowed.vue";
 
 @Component({
@@ -69,6 +71,7 @@ import UserFollowed from "@/components/notification/UserFollowed.vue";
     RepliedToPersonalUpdateComment,
     Repost,
     Unknown,
+    UpvoteAnswer,
     UserFollowed
   }
 })

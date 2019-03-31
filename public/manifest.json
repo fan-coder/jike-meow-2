@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "即刻喵",
-  "version": "2.0.0",
+  "version": "2.0.0.2",
   "author": "coder-ysj",
   "description": "可独立使用的「即刻」非官方浏览器插件.",
 
@@ -18,7 +18,7 @@
     "notifications",
     "storage",
     "tabs",
-    "<all_urls>"
+    "*://*.ruguoapp.com/*"
   ],
 
   "icons": {

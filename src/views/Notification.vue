@@ -13,8 +13,11 @@
     <main v-else>
       <div v-for="item in notificationList" :key="item.id">
         <AnswerQuestion v-if="item.type === 'ANSWER_QUESTION'" :data="item"/>
+        <CommentAnswer v-else-if="item.type === 'COMMENT_ANSWER'" :data="item"/>
         <CommentPersonalUpdate v-else-if="item.type === 'COMMENT_PERSONAL_UPDATE'" :data="item"/>
+        <LikeAnswerComment v-else-if="item.type === 'LIKE_ANSWER_COMMENT'" :data="item"/>
         <LikeAvatar v-else-if="item.type === 'LIKE_AVATAR'" :data="item"/>
+        <LikeComment v-else-if="item.type === 'LIKE_COMMENT'" :data="item"/>
         <LikePersonalUpdate v-else-if="item.type === 'LIKE_PERSONAL_UPDATE'" :data="item"/>
         <LikePersonalUpdateComment
           v-else-if="item.type === 'LIKE_PERSONAL_UPDATE_COMMENT'"
@@ -22,12 +25,7 @@
         />
         <LikeQuestion v-else-if="item.type === 'LIKE_QUESTION'" :data="item"/>
         <Mention v-else-if="item.type === 'MENTION'" :data="item"/>
-        <UserFollowed
-          v-else-if="item.type === 'USER_FOLLOWED'"
-          :data="item"
-          v-on:follow="follow(item)"
-          v-on:unfollow="unfollow(item)"
-        />
+        <PersonalUpdateReposted v-else-if="item.type === 'PERSONAL_UPDATE_REPOSTED'" :data="item"/>
         <RepliedToPersonalUpdateComment
           v-else-if="item.type === 'REPLIED_TO_PERSONAL_UPDATE_COMMENT'"
           :data="item"
@@ -35,6 +33,12 @@
         />
         <Repost v-else-if="item.type === 'REPOST'" :data="item"/>
         <UpvoteAnswer v-else-if="item.type === 'UPVOTE_ANSWER'" :data="item"/>
+        <UserFollowed
+          v-else-if="item.type === 'USER_FOLLOWED'"
+          :data="item"
+          v-on:follow="follow(item)"
+          v-on:unfollow="unfollow(item)"
+        />
         <Unknown v-else/>
       </div>
     </main>
@@ -46,12 +50,16 @@ import api from "@/api";
 import func from "@/function";
 import Header from "@/components/Header.vue";
 import AnswerQuestion from "@/components/notification/AnswerQuestion.vue";
+import CommentAnswer from "@/components/notification/CommentAnswer.vue";
 import CommentPersonalUpdate from "@/components/notification/CommentPersonalUpdate.vue";
+import LikeAnswerComment from "@/components/notification/LikeAnswerComment.vue";
 import LikeAvatar from "@/components/notification/LikeAvatar.vue";
+import LikeComment from "@/components/notification/LikeComment.vue";
 import LikePersonalUpdate from "@/components/notification/LikePersonalUpdate.vue";
 import LikePersonalUpdateComment from "@/components/notification/LikePersonalUpdateComment.vue";
 import LikeQuestion from "@/components/notification/LikeQuestion.vue";
 import Mention from "@/components/notification/Mention.vue";
+import PersonalUpdateReposted from "@/components/notification/PersonalUpdateReposted.vue";
 import RepliedToPersonalUpdateComment from "@/components/notification/RepliedToPersonalUpdateComment.vue";
 import Repost from "@/components/notification/Repost.vue";
 import Unknown from "@/components/notification/Unknown.vue";
@@ -62,12 +70,16 @@ import UserFollowed from "@/components/notification/UserFollowed.vue";
   components: {
     Header,
     AnswerQuestion,
+    CommentAnswer,
+    LikeAnswerComment,
     CommentPersonalUpdate,
     LikeAvatar,
+    LikeComment,
     LikePersonalUpdate,
     LikePersonalUpdateComment,
     LikeQuestion,
     Mention,
+    PersonalUpdateReposted,
     RepliedToPersonalUpdateComment,
     Repost,
     Unknown,

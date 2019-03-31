@@ -123,28 +123,6 @@ export default class Home extends Vue {
     };
   }
 
-  scrollToLoadMore(e: any) {
-    const OFFSET_TOP = e.target.scrollTop + 500;
-    const FIRE_POINT = this.data.length * 80;
-
-    if (OFFSET_TOP > FIRE_POINT) {
-      if (
-        this.isGettingFollowingList === true ||
-        this.isLoadingMoreKey === true ||
-        this.isLoadMoreKeyEnabled === false
-      )
-        return;
-      this.loadMoreData();
-    }
-  }
-
-  loadMoreData() {
-    if (!this.isLoadMoreKeyEnabled) return;
-
-    this.isLoadingMoreKey = true;
-    this.getFollowingList();
-  }
-
   getFollowingList() {
     api
       .getFollowingList(this.loadMoreKey, this.$route.query.username)
@@ -177,6 +155,27 @@ export default class Home extends Vue {
           func.refreshToken(this.getFollowingList());
         }
       });
+  }
+
+  scrollToLoadMore(e: any) {
+    const OFFSET_TOP = e.target.scrollTop + 500;
+    const FIRE_POINT = this.data.length * 80;
+
+    if (OFFSET_TOP > FIRE_POINT) {
+      if (
+        this.isGettingFollowingList === true ||
+        this.isLoadingMoreKey === true ||
+        this.isLoadMoreKeyEnabled === false
+      )
+        return;
+      this.loadMoreData();
+    }
+  }
+
+  loadMoreData() {
+    if (!this.isLoadMoreKeyEnabled) return;
+    this.isLoadingMoreKey = true;
+    this.getFollowingList();
   }
 
   // Open homepage in browser

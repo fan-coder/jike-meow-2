@@ -1,5 +1,5 @@
 <template>
-  <div class="notification">
+  <div class="notification" :class="{ dark: $store.state.isDarkMode }">
     <Header/>
 
     <main v-if="isGettingNotificationList">
@@ -10,7 +10,7 @@
       ></vue-loading>
     </main>
 
-    <main v-else>
+    <main v-else @scroll="scrollToLoadMore">
       <div v-for="item in notificationList" :key="item.id">
         <AnswerQuestion v-if="item.type === 'ANSWER_QUESTION'" :data="item"/>
         <CommentAnswer v-else-if="item.type === 'COMMENT_ANSWER'" :data="item"/>
@@ -40,6 +40,23 @@
           v-on:unfollow="unfollow(item)"
         />
         <Unknown v-else/>
+      </div>
+
+      <vue-loading
+        type="bubbles"
+        style="margin-top: 10px"
+        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
+        :size="{ width: '60px', height: '60px' }"
+        v-if="isLoadMoreKeyEnabled"
+      ></vue-loading>
+
+      <!-- Prevent to load more data -->
+      <div
+        class="notification-full-data"
+        v-if="!isLoadMoreKeyEnabled && notificationList.length >= 300"
+      >
+        <i></i>
+        <p>去客户端里看吧～</p>
       </div>
     </main>
   </div>
@@ -89,8 +106,17 @@ import UserFollowed from "@/components/notification/UserFollowed.vue";
 })
 export default class Home extends Vue {
   isGettingNotificationList: boolean = true;
+  isLoadMoreKeyEnabled: boolean = false;
+  isLoadingMoreKey: boolean = false;
   notificationList: Array<object> = [];
   loadMoreKey: object = {};
+
+  @Watch("notificationList")
+  preventLoadMore() {
+    if (this.notificationList.length >= 300) {
+      this.isLoadMoreKeyEnabled = false;
+    }
+  }
 
   created() {
     this.isGettingNotificationList = true;
@@ -102,17 +128,45 @@ export default class Home extends Vue {
       .getNotificationList(this.loadMoreKey)
       .then((data: any) => {
         const RESPONSE = data.data;
-        this.notificationList = RESPONSE.data;
+        this.notificationList = this.notificationList.concat(RESPONSE.data);
+        this.loadMoreKey = RESPONSE.loadMoreKey;
+
+        this.isLoadMoreKeyEnabled = true;
+        if (RESPONSE.data.length <= 10) this.isLoadMoreKeyEnabled = false;
 
         setTimeout(() => {
           this.isGettingNotificationList = false;
         }, 1000);
+        this.isLoadingMoreKey = false;
       })
       .catch((err: any) => {
+        this.isGettingNotificationList = false;
+        this.isLoadingMoreKey = false;
         if (err.response.status === 401) {
           func.refreshToken(this.getNotificationList());
         }
       });
+  }
+
+  scrollToLoadMore(e: any) {
+    const OFFSET_TOP = e.target.scrollTop + 500;
+    const FIRE_POINT = this.notificationList.length * 100;
+
+    if (OFFSET_TOP > FIRE_POINT) {
+      if (
+        this.isGettingNotificationList === true ||
+        this.isLoadingMoreKey === true ||
+        this.isLoadMoreKeyEnabled === false
+      )
+        return;
+      this.loadMoreData();
+    }
+  }
+
+  loadMoreData() {
+    if (!this.isLoadMoreKeyEnabled) return;
+    this.isLoadingMoreKey = true;
+    this.getNotificationList();
   }
 
   enlargeImage(item: any) {
@@ -169,5 +223,32 @@ main {
 
 div.vue-loading {
   margin-top: 150px;
+}
+
+/* Prevent to load more data */
+div.notification-full-data {
+  display: block;
+  width: 100%;
+  padding: 15px 0 30px 0;
+  box-shadow: 0px -30px 15px 0 rgba(255, 255, 255, 1);
+}
+div.notification.dark div.notification-full-data {
+  box-shadow: 0px -30px 15px 0 rgba(50, 54, 57, 1);
+}
+div.notification-full-data i {
+  display: block;
+  height: 150px;
+  width: 150px;
+  margin: auto;
+  background: url("../assets/submarine.svg") center no-repeat;
+  background-size: 100%;
+}
+div.notification-full-data p {
+  display: block;
+  margin: auto;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  text-align: center;
 }
 </style>

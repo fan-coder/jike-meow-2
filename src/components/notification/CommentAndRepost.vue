@@ -1,5 +1,5 @@
 <template>
-  <div class="reply" :class="{ dark: $store.state.isDarkMode }">
+  <div class="comment" :class="{ dark: $store.state.isDarkMode }">
     <div class="left">
       <div class="avatars">
         <i
@@ -14,8 +14,7 @@
           :href="`https://web.okjike.com/user/${data.actionItem.users[0].username}/post`"
           target="_blank"
         >{{ data.actionItem.users[0].screenName }}</a>&nbsp;
-        <!-- <span v-if="data.referenceItem.type === 'QUESTION'">转发了你的问题</span> -->
-        <span>回复了你</span>
+        <span>评论并转发了你</span>
         <div class="content" v-if="data.actionItem.content">
           {{ data.actionItem.content }}
           <span
@@ -45,7 +44,7 @@ import { Component, Vue } from "vue-property-decorator";
 export default class Home extends Vue {}
 </script>
 <style scoped>
-div.reply {
+div.comment {
   display: block;
   width: calc(100% - 40px);
   padding: 10px 0;
@@ -53,7 +52,7 @@ div.reply {
   font-size: 0;
   border-bottom: 1px solid #efefef;
 }
-div.reply.dark {
+div.comment.dark {
   border-color: #666;
 }
 
@@ -101,7 +100,7 @@ div.avatars > i.isVerified::after {
   background-size: 100%;
   z-index: 5;
 }
-div.reply.dark div.avatars > i {
+div.comment.dark div.avatars > i {
   background-color: #262626;
 }
 div.avatars > i + i {
@@ -117,13 +116,13 @@ div.text {
   line-height: 1.6;
   color: #808080;
 }
-div.reply.dark div.text {
+div.comment.dark div.text {
   color: #bbb;
 }
 div.text > a {
   color: #000;
 }
-div.reply.dark div.text > a {
+div.comment.dark div.text > a {
   color: #fff;
 }
 div.content {
@@ -148,7 +147,7 @@ div.time {
   line-height: 1.6;
   color: #999;
 }
-div.reply.dark div.time {
+div.comment.dark div.time {
   color: #bbb;
 }
 </style>

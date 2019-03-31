@@ -12,9 +12,26 @@
 
     <main v-else @scroll="scrollToLoadMore">
       <div v-for="item in notificationList" :key="item.id">
-        <AnswerQuestion v-if="item.type === 'ANSWER_QUESTION'" :data="item"/>
-        <CommentAnswer v-else-if="item.type === 'COMMENT_ANSWER'" :data="item"/>
-        <CommentPersonalUpdate v-else-if="item.type === 'COMMENT_PERSONAL_UPDATE'" :data="item"/>
+        <AnswerQuestion
+          v-if="item.type === 'ANSWER_QUESTION'"
+          :data="item"
+          v-on:enlargeImage="enlargeImage(item)"
+        />
+        <CommentAndRepost
+          v-else-if="item.type === 'COMMENT_AND_REPOST'"
+          :data="item"
+          v-on:enlargeImage="enlargeImage(item)"
+        />
+        <CommentAnswer
+          v-else-if="item.type === 'COMMENT_ANSWER'"
+          :data="item"
+          v-on:enlargeImage="enlargeImage(item)"
+        />
+        <CommentPersonalUpdate
+          v-else-if="item.type === 'COMMENT_PERSONAL_UPDATE'"
+          :data="item"
+          v-on:enlargeImage="enlargeImage(item)"
+        />
         <LikeAnswerComment v-else-if="item.type === 'LIKE_ANSWER_COMMENT'" :data="item"/>
         <LikeAvatar v-else-if="item.type === 'LIKE_AVATAR'" :data="item"/>
         <LikeComment v-else-if="item.type === 'LIKE_COMMENT'" :data="item"/>
@@ -24,14 +41,22 @@
           :data="item"
         />
         <LikeQuestion v-else-if="item.type === 'LIKE_QUESTION'" :data="item"/>
-        <Mention v-else-if="item.type === 'MENTION'" :data="item"/>
+        <Mention
+          v-else-if="item.type === 'MENTION'"
+          :data="item"
+          v-on:enlargeImage="enlargeImage(item)"
+        />
         <PersonalUpdateReposted v-else-if="item.type === 'PERSONAL_UPDATE_REPOSTED'" :data="item"/>
         <RepliedToPersonalUpdateComment
           v-else-if="item.type === 'REPLIED_TO_PERSONAL_UPDATE_COMMENT'"
           :data="item"
           v-on:enlargeImage="enlargeImage(item)"
         />
-        <Repost v-else-if="item.type === 'REPOST'" :data="item"/>
+        <Repost
+          v-else-if="item.type === 'REPOST'"
+          :data="item"
+          v-on:enlargeImage="enlargeImage(item)"
+        />
         <UpvoteAnswer v-else-if="item.type === 'UPVOTE_ANSWER'" :data="item"/>
         <UserFollowed
           v-else-if="item.type === 'USER_FOLLOWED'"
@@ -67,6 +92,7 @@ import api from "@/api";
 import func from "@/function";
 import Header from "@/components/Header.vue";
 import AnswerQuestion from "@/components/notification/AnswerQuestion.vue";
+import CommentAndRepost from "@/components/notification/CommentAndRepost.vue";
 import CommentAnswer from "@/components/notification/CommentAnswer.vue";
 import CommentPersonalUpdate from "@/components/notification/CommentPersonalUpdate.vue";
 import LikeAnswerComment from "@/components/notification/LikeAnswerComment.vue";
@@ -87,6 +113,7 @@ import UserFollowed from "@/components/notification/UserFollowed.vue";
   components: {
     Header,
     AnswerQuestion,
+    CommentAndRepost,
     CommentAnswer,
     LikeAnswerComment,
     CommentPersonalUpdate,
@@ -171,9 +198,7 @@ export default class Home extends Vue {
 
   enlargeImage(item: any) {
     this.$confirm(
-      `<img class='alert-image' src='${
-        item.actionItem.pictures[0].middlePicUrl
-      }'>`,
+      `<img class='alert-image' src='${item.actionItem.pictures[0].picUrl}'>`,
       "",
       {
         dangerouslyUseHTMLString: true,

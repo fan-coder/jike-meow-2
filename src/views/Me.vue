@@ -25,7 +25,7 @@
             <span>{{ data.user.verifyMessage }}</span>
           </p>
         </div>
-        <i class="el-icon-refresh" @click.self.stop="$router.push('/me/settings')"></i>
+        <i class="el-icon-setting" @click.self.stop="$router.push('/me/settings')"></i>
       </div>
 
       <!-- Bio -->
@@ -168,7 +168,7 @@ div.me-profile > div {
   width: calc(100% - 115px);
   margin-left: 20px;
 }
-i.el-icon-refresh {
+i.el-icon-setting {
   cursor: pointer;
   display: block;
   width: 30px;

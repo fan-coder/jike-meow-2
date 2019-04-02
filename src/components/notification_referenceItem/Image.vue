@@ -1,15 +1,20 @@
 <template>
-  <div class="image" :class="{ dark: $store.state.isDarkMode }">
-    <img :src="image">
+  <div class="image" :class="{ dark: $store.state.isDarkMode }" @click.stop="link">
+    <img :src="data.referenceItem.referenceImageUrl">
   </div>
 </template>
 <script lang="ts">
+import func from "@/function";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-  props: ["image"]
+  props: ["data"]
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  link() {
+    func.linkURL(this.$props.data);
+  }
+}
 </script>
 <style scoped>
 div.image {

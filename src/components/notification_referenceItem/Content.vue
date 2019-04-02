@@ -1,13 +1,22 @@
 <template>
-  <div class="content" :class="{ dark: $store.state.isDarkMode }">{{ content }}</div>
+  <div
+    class="content"
+    :class="{ dark: $store.state.isDarkMode }"
+    @click.stop="link"
+  >{{ data.referenceItem.content }}</div>
 </template>
 <script lang="ts">
+import func from "@/function";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-  props: ["content"]
+  props: ["data"]
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  link() {
+    func.linkURL(this.$props.data);
+  }
+}
 </script>
 <style scoped>
 div.content {

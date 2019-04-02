@@ -47,11 +47,13 @@
           v-on:enlargeImage="enlargeImage(item)"
         />
         <PersonalUpdateReposted v-else-if="item.type === 'PERSONAL_UPDATE_REPOSTED'" :data="item"/>
+        <RepliedToAnswerComment v-else-if="item.type === 'REPLIED_TO_ANSWER_COMMENT'" :data="item"/>
         <RepliedToPersonalUpdateComment
           v-else-if="item.type === 'REPLIED_TO_PERSONAL_UPDATE_COMMENT'"
           :data="item"
           v-on:enlargeImage="enlargeImage(item)"
         />
+        <ReplyToComment v-else-if="item.type === 'REPLY_TO_COMMENT'" :data="item"/>
         <Repost
           v-else-if="item.type === 'REPOST'"
           :data="item"
@@ -103,7 +105,9 @@ import LikePersonalUpdateComment from "@/components/notification/LikePersonalUpd
 import LikeQuestion from "@/components/notification/LikeQuestion.vue";
 import Mention from "@/components/notification/Mention.vue";
 import PersonalUpdateReposted from "@/components/notification/PersonalUpdateReposted.vue";
+import RepliedToAnswerComment from "@/components/notification/RepliedToAnswerComment.vue";
 import RepliedToPersonalUpdateComment from "@/components/notification/RepliedToPersonalUpdateComment.vue";
+import ReplyToComment from "@/components/notification/ReplyToComment.vue";
 import Repost from "@/components/notification/Repost.vue";
 import Unknown from "@/components/notification/Unknown.vue";
 import UpvoteAnswer from "@/components/notification/UpvoteAnswer.vue";
@@ -124,7 +128,9 @@ import UserFollowed from "@/components/notification/UserFollowed.vue";
     LikeQuestion,
     Mention,
     PersonalUpdateReposted,
+    RepliedToAnswerComment,
     RepliedToPersonalUpdateComment,
+    ReplyToComment,
     Repost,
     Unknown,
     UpvoteAnswer,
@@ -159,7 +165,7 @@ export default class Home extends Vue {
         this.loadMoreKey = RESPONSE.loadMoreKey;
 
         this.isLoadMoreKeyEnabled = true;
-        if (RESPONSE.data.length <= 10) this.isLoadMoreKeyEnabled = false;
+        if (RESPONSE.data.length <= 0) this.isLoadMoreKeyEnabled = false;
 
         setTimeout(() => {
           this.isGettingNotificationList = false;

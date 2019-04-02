@@ -20,11 +20,8 @@
       <div class="time">{{ data.createdAt | reformatTime }}</div>
     </div>
     <div class="right">
-      <meow-nr-content
-        v-if="!data.referenceItem.referenceImageUrl"
-        :content="data.referenceItem.content"
-      />
-      <meow-nr-image v-else :image="data.referenceItem.referenceImageUrl"/>
+      <meow-nr-content v-if="!data.referenceItem.referenceImageUrl" :data="data"/>
+      <meow-nr-image v-else :data="data"/>
     </div>
   </div>
 </template>

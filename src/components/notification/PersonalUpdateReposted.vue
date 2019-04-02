@@ -14,17 +14,14 @@
           :href="`https://web.okjike.com/user/${data.actionItem.users[0].username}/post`"
           target="_blank"
         >{{ data.actionItem.users[0].screenName }}</a>&nbsp;
-        <span v-if="data.referenceItem.type === 'QUESTION'">转发了你的动态</span>
+        <span>转发了你的动态</span>
         <div class="content" v-if="data.actionItem.content">{{ data.actionItem.content }}</div>
       </div>
       <div class="time">{{ data.createdAt | reformatTime }}</div>
     </div>
     <div class="right">
-      <meow-nr-content
-        v-if="!data.referenceItem.referenceImageUrl"
-        :content="data.referenceItem.content"
-      />
-      <meow-nr-image v-else/>
+      <meow-nr-content v-if="!data.referenceItem.referenceImageUrl" :data="data"/>
+      <meow-nr-image v-else :data="data"/>
     </div>
   </div>
 </template>

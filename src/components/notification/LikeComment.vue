@@ -22,7 +22,7 @@
       <div class="time">{{ data.createdAt | reformatTime }}</div>
     </div>
     <div class="right">
-      <meow-nr-content :content="data.referenceItem.content"/>
+      <meow-nr-content :data="data"/>
     </div>
   </div>
 </template>

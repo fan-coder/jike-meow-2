@@ -16,8 +16,8 @@
         >{{ data.actionItem.users[0].screenName }}</a>&nbsp;
         <!-- <span v-if="data.referenceItem.type === 'QUESTION'">转发了你的问题</span> -->
         <span>回复了你</span>
-        <div class="content" v-if="data.actionItem.content">
-          {{ data.actionItem.content }}
+        <div class="content">
+          {{ data.actionItem.content || '' }}
           <span
             class="content-picture"
             v-if="data.actionItem.pictures && data.actionItem.pictures.length > 0"
@@ -30,9 +30,9 @@
     <div class="right">
       <meow-nr-content
         v-if="!data.referenceItem.referenceImageUrl"
-        :content="data.referenceItem.content"
+        :data="data"
       />
-      <meow-nr-image v-else :image="data.referenceItem.referenceImageUrl"/>
+      <meow-nr-image v-else :data="data"/>
     </div>
   </div>
 </template>

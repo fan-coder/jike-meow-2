@@ -15,8 +15,8 @@
           target="_blank"
         >{{ data.actionItem.users[0].screenName }}</a>&nbsp;
         <span>评论并转发了你</span>
-        <div class="content" v-if="data.actionItem.content">
-          {{ data.actionItem.content }}
+        <div class="content">
+          {{ data.actionItem.content || '' }}
           <span
             class="content-picture"
             v-if="data.actionItem.pictures && data.actionItem.pictures.length > 0"
@@ -27,11 +27,8 @@
       <div class="time">{{ data.createdAt | reformatTime }}</div>
     </div>
     <div class="right">
-      <meow-nr-content
-        v-if="!data.referenceItem.referenceImageUrl"
-        :content="data.referenceItem.content"
-      />
-      <meow-nr-image v-else :image="data.referenceItem.referenceImageUrl"/>
+      <meow-nr-content v-if="!data.referenceItem.referenceImageUrl" :data="data"/>
+      <meow-nr-image v-else :data="data"/>
     </div>
   </div>
 </template>

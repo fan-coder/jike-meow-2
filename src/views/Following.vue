@@ -138,9 +138,9 @@ export default class Home extends Vue {
           });
 
           this.isLoadMoreKeyEnabled = true;
-          if (RESPONSE.data.length < 20) this.isLoadMoreKeyEnabled = false;
-          this.data = this.data.concat(arr);
           this.loadMoreKey = RESPONSE.loadMoreKey;
+          if (!RESPONSE.loadMoreKey) this.isLoadMoreKeyEnabled = false;
+          this.data = this.data.concat(arr);
         }
 
         setTimeout(() => {

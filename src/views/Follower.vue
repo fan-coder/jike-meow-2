@@ -50,7 +50,8 @@
       <div class="follower-empty" v-if="!isGettingFollowerList && data.length <= 0">
         <div>
           <i></i>
-          <p>没有粉丝
+          <p>
+            没有粉丝
             <br>不代表没有魅力
             <br>很有可能是因为…
             <br>你更在意真实世界的自己
@@ -142,9 +143,9 @@ export default class Home extends Vue {
           });
 
           this.isLoadMoreKeyEnabled = true;
-          if (RESPONSE.data.length < 20) this.isLoadMoreKeyEnabled = false;
-          this.data = this.data.concat(arr);
           this.loadMoreKey = RESPONSE.loadMoreKey;
+          if (!RESPONSE.loadMoreKey) this.isLoadMoreKeyEnabled = false;
+          this.data = this.data.concat(arr);
         }
 
         setTimeout(() => {

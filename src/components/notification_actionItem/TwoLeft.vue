@@ -64,7 +64,6 @@ div.avatars {
   padding-top: 10px;
 }
 div.avatars > i {
-  cursor: pointer;
   display: inline-block;
   vertical-align: middle;
   height: 30px;

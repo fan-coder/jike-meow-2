@@ -29,7 +29,6 @@ div.avatars {
   display: block;
 }
 div.avatars > i {
-  cursor: pointer;
   display: inline-block;
   vertical-align: middle;
   height: 35px;

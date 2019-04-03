@@ -165,7 +165,7 @@ export default class Home extends Vue {
         this.loadMoreKey = RESPONSE.loadMoreKey;
 
         this.isLoadMoreKeyEnabled = true;
-        if (RESPONSE.data.length <= 0) this.isLoadMoreKeyEnabled = false;
+        if (!RESPONSE.loadMoreKey) this.isLoadMoreKeyEnabled = false;
 
         setTimeout(() => {
           this.isGettingNotificationList = false;
@@ -200,24 +200,6 @@ export default class Home extends Vue {
     if (!this.isLoadMoreKeyEnabled) return;
     this.isLoadingMoreKey = true;
     this.getNotificationList();
-  }
-
-  enlargeImage(item: any) {
-    this.$confirm(
-      `<img class='alert-image' src='${item.actionItem.pictures[0].picUrl}'>`,
-      "",
-      {
-        dangerouslyUseHTMLString: true,
-        closeOnClickModal: true,
-        showClose: true,
-        confirmButtonText: "查看原图",
-        cancelButtonText: "关闭"
-      }
-    )
-      .then(() => {
-        window.open(item.actionItem.pictures[0].picUrl);
-      })
-      .catch(() => {});
   }
 
   follow(item: any) {

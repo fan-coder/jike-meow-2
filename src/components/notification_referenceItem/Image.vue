@@ -18,6 +18,7 @@ export default class Home extends Vue {
 </script>
 <style scoped>
 div.image {
+  cursor: pointer;
   display: block;
   height: 70px;
   width: 70px;

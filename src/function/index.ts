@@ -1,5 +1,6 @@
 import router from "@/router";
 import api from "@/api";
+import chrome from "@/function/chrome";
 import { Message } from "element-ui";
 
 export default {
@@ -82,6 +83,6 @@ export default {
     }
 
     // Open link in new tab
-    if (LINK !== "") window.open(LINK);
+    if (LINK !== "") chrome.openLink(LINK);
   }
 };

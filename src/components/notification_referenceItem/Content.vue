@@ -20,6 +20,7 @@ export default class Home extends Vue {
 </script>
 <style scoped>
 div.content {
+  cursor: pointer;
   display: block;
   display: -webkit-box;
   height: 60px;

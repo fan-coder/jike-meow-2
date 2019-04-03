@@ -9,6 +9,9 @@
       <div class="content hidden" v-if="data.actionItem.status === 'HIDDEN'">
         <span>{{ data.actionItem.content }}</span>
       </div>
+      <div class="content hidden" v-else-if="data.actionItem.status === 'DELETED'">
+        <span>{{ data.actionItem.content }}</span>
+      </div>
       <div class="content" v-else>
         {{ data.actionItem.content || '' }}
         <span
@@ -64,7 +67,7 @@ div.content {
 }
 div.content.hidden > span {
   padding: 3px 6px;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1.6;
   color: #fff;
   background-color: #999;

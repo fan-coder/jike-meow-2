@@ -1,36 +1,17 @@
 <template>
   <div class="liked" :class="{ dark: $store.state.isDarkMode }">
-    <div class="left">
-      <div class="text">
-        <a
-          v-for="user in data.actionItem.users"
-          :key="user.id"
-          :href="`https://web.okjike.com/user/${user.username}/post`"
-          target="_blank"
-        >{{ user.screenName }}</a>&nbsp;
-        <span v-if="data.actionItem.usersCount >= 3">等 {{ data.actionItem.usersCount }} 人</span>
-        <span>赞了你的问题</span>
-      </div>
-      <div class="avatars">
-        <i
-          v-for="avatar in data.actionItem.users"
-          :key="avatar.id"
-          :style="{backgroundImage: 'url(' + avatar.profileImageUrl + ')'}"
-          :class="{ isVerified: avatar.isVerified }"
-        ></i>
-      </div>
-      <div class="time">{{ data.createdAt | reformatTime }}</div>
-    </div>
-    <div class="right">
-      <meow-nr-content :data="data"/>
-    </div>
+    <TwoLeft :data="data" :actionDescription="'赞了你的问题'"/>
+    <ThreeRight :data="data"/>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import TwoLeft from "@/components/notification_actionItem/TwoLeft.vue";
+import ThreeRight from "@/components/notification_actionItem/ThreeRight.vue";
 
 @Component({
-  props: ["data"]
+  props: ["data"],
+  components: { TwoLeft, ThreeRight }
 })
 export default class Home extends Vue {}
 </script>

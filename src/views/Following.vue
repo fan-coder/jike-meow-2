@@ -3,11 +3,7 @@
     <Back title="我关注的人"/>
 
     <main v-if="isGettingFollowingList">
-      <vue-loading
-        type="bubbles"
-        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
-        :size="{ width: '60px', height: '60px' }"
-      ></vue-loading>
+      <meow-loading style="margin-top: 150px"/>
     </main>
 
     <main v-else @scroll="scrollToLoadMore">
@@ -39,18 +35,13 @@
         <button class="notFollowing" v-else @click.self.stop="follow(people, people.username)">关注</button>
       </div>
 
-      <vue-loading
-        type="bubbles"
-        style="margin-top: 0;"
-        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
-        :size="{ width: '60px', height: '60px' }"
-        v-if="isLoadMoreKeyEnabled"
-      ></vue-loading>
+      <meow-loading v-if="isLoadMoreKeyEnabled" style="margin-top: 0"/>
 
       <div class="following-empty" v-if="!isGettingFollowingList && data.length <= 0">
         <div>
           <i></i>
-          <p>可能你只是想 “树洞”
+          <p>
+            可能你只是想 “树洞”
             <br>但既然来到这里
             <br>就说明你至少还在乎
             <br>去试试关注一些新朋友吧～
@@ -123,6 +114,38 @@ export default class Home extends Vue {
     };
   }
 
+  getFollowingList() {
+    api
+      .getFollowingList(this.loadMoreKey, this.$route.query.username)
+      .then((data: any) => {
+        const RESPONSE = data.data;
+
+        if (RESPONSE.success === true) {
+          let arr: object[] = [];
+
+          RESPONSE.data.map((item: any) => {
+            item.isHover = false;
+            arr.push(item);
+          });
+
+          this.isLoadMoreKeyEnabled = true;
+          this.loadMoreKey = RESPONSE.loadMoreKey;
+          if (!RESPONSE.loadMoreKey) this.isLoadMoreKeyEnabled = false;
+          this.data = this.data.concat(arr);
+        }
+
+        this.isGettingFollowingList = false;
+        this.isLoadingMoreKey = false;
+      })
+      .catch(err => {
+        this.isGettingFollowingList = false;
+        this.isLoadingMoreKey = false;
+        if (err.response.status === 401) {
+          func.refreshToken(this.getFollowingList());
+        }
+      });
+  }
+
   scrollToLoadMore(e: any) {
     const OFFSET_TOP = e.target.scrollTop + 500;
     const FIRE_POINT = this.data.length * 80;
@@ -140,43 +163,8 @@ export default class Home extends Vue {
 
   loadMoreData() {
     if (!this.isLoadMoreKeyEnabled) return;
-
     this.isLoadingMoreKey = true;
     this.getFollowingList();
-  }
-
-  getFollowingList() {
-    api
-      .getFollowingList(this.loadMoreKey, this.$route.query.username)
-      .then((data: any) => {
-        const RESPONSE = data.data;
-
-        if (RESPONSE.success === true) {
-          let arr: object[] = [];
-
-          RESPONSE.data.map((item: any) => {
-            item.isHover = false;
-            arr.push(item);
-          });
-
-          this.isLoadMoreKeyEnabled = true;
-          if (RESPONSE.data.length < 20) this.isLoadMoreKeyEnabled = false;
-          this.data = this.data.concat(arr);
-          this.loadMoreKey = RESPONSE.loadMoreKey;
-        }
-
-        setTimeout(() => {
-          this.isGettingFollowingList = false;
-        }, 1000);
-        this.isLoadingMoreKey = false;
-      })
-      .catch(err => {
-        this.isGettingFollowingList = false;
-        this.isLoadingMoreKey = false;
-        if (err.response.status === 401) {
-          func.refreshToken(this.getFollowingList());
-        }
-      });
   }
 
   // Open homepage in browser
@@ -214,10 +202,6 @@ main {
   width: 100%;
   padding: 50px 0 15px 0;
   overflow-y: auto;
-}
-
-div.vue-loading {
-  margin-top: 150px;
 }
 
 div.following-profile {

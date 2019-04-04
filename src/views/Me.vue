@@ -3,11 +3,7 @@
     <Header/>
 
     <main v-if="isGettingProfileData">
-      <vue-loading
-        type="bubbles"
-        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
-        :size="{ width: '60px', height: '60px' }"
-      ></vue-loading>
+      <meow-loading style="margin-top: 150px"/>
     </main>
 
     <main v-else>
@@ -25,7 +21,7 @@
             <span>{{ data.user.verifyMessage }}</span>
           </p>
         </div>
-        <i class="el-icon-refresh" @click.self.stop="$router.push('/me/settings')"></i>
+        <i class="el-icon-setting" @click.self.stop="$router.push('/me/settings')"></i>
       </div>
 
       <!-- Bio -->
@@ -91,9 +87,7 @@ export default class Home extends Vue {
       .then((data: any) => {
         const RESPONSE = data.data;
         this.data = RESPONSE;
-        setTimeout(() => {
-          this.isGettingProfileData = false;
-        }, 1000);
+        this.isGettingProfileData = false;
       })
       .catch(err => {
         if (err.response.status === 401) {
@@ -131,12 +125,10 @@ export default class Home extends Vue {
 <style scoped>
 main {
   display: block;
+  height: 500px;
   width: 100%;
   padding: 50px 0 20px 0;
-}
-
-div.vue-loading {
-  margin-top: 150px;
+  overflow-y: auto;
 }
 
 div.me-profile {
@@ -166,7 +158,7 @@ div.me-profile > div {
   width: calc(100% - 115px);
   margin-left: 20px;
 }
-i.el-icon-refresh {
+i.el-icon-setting {
   cursor: pointer;
   display: block;
   width: 30px;

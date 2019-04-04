@@ -1,7 +1,7 @@
 <template>
   <header :class="{ dark: $store.state.isDarkMode }">
-    <router-link to="/recommend">
-      <span>热门</span>
+    <router-link to="/tools">
+      <span>小工具</span>
     </router-link>
     <router-link to="/notifications">
       <span>通知</span>

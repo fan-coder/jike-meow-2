@@ -132,7 +132,7 @@ export default class Home extends Vue {
             "refreshToken",
             RESPONSE["x-jike-refresh-token"]
           );
-          this.$router.replace("/recommend");
+          this.$router.replace("/me");
           return;
         }
       })

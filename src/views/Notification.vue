@@ -12,63 +12,19 @@
 
     <main v-else @scroll="scrollToLoadMore">
       <div v-for="item in notificationList" :key="item.id">
-        <AnswerQuestion
-          v-if="item.type === 'ANSWER_QUESTION'"
-          :data="item"
-          v-on:enlargeImage="enlargeImage(item)"
-        />
-        <CommentAndRepost
-          v-else-if="item.type === 'COMMENT_AND_REPOST'"
-          :data="item"
-          v-on:enlargeImage="enlargeImage(item)"
-        />
-        <CommentAnswer
-          v-else-if="item.type === 'COMMENT_ANSWER'"
-          :data="item"
-          v-on:enlargeImage="enlargeImage(item)"
-        />
-        <CommentPersonalUpdate
-          v-else-if="item.type === 'COMMENT_PERSONAL_UPDATE'"
-          :data="item"
-          v-on:enlargeImage="enlargeImage(item)"
-        />
-        <LikeAnswerComment v-else-if="item.type === 'LIKE_ANSWER_COMMENT'" :data="item"/>
-        <LikeAvatar v-else-if="item.type === 'LIKE_AVATAR'" :data="item"/>
-        <LikeComment v-else-if="item.type === 'LIKE_COMMENT'" :data="item"/>
-        <LikePersonalUpdate v-else-if="item.type === 'LIKE_PERSONAL_UPDATE'" :data="item"/>
-        <LikePersonalUpdateComment
-          v-else-if="item.type === 'LIKE_PERSONAL_UPDATE_COMMENT'"
-          :data="item"
-        />
-        <LikeQuestion v-else-if="item.type === 'LIKE_QUESTION'" :data="item"/>
-        <Mention
-          v-else-if="item.type === 'MENTION'"
-          :data="item"
-          v-on:enlargeImage="enlargeImage(item)"
-        />
-        <PersonalUpdateReposted v-else-if="item.type === 'PERSONAL_UPDATE_REPOSTED'" :data="item"/>
-        <RepliedToAnswerComment v-else-if="item.type === 'REPLIED_TO_ANSWER_COMMENT'" :data="item"/>
-        <RepliedToPersonalUpdateComment
-          v-else-if="item.type === 'REPLIED_TO_PERSONAL_UPDATE_COMMENT'"
-          :data="item"
-          v-on:enlargeImage="enlargeImage(item)"
-        />
-        <ReplyToComment v-else-if="item.type === 'REPLY_TO_COMMENT'" :data="item"/>
-        <Repost
-          v-else-if="item.type === 'REPOST'"
-          :data="item"
-          v-on:enlargeImage="enlargeImage(item)"
-        />
-        <UpvoteAnswer v-else-if="item.type === 'UPVOTE_ANSWER'" :data="item"/>
-        <UserFollowed
-          v-else-if="item.type === 'USER_FOLLOWED'"
-          :data="item"
-          v-on:follow="follow(item)"
-          v-on:unfollow="unfollow(item)"
-        />
-        <Unknown v-else/>
+        <keep-alive>
+          <component
+            v-if="notificationComponents[item.type]"
+            :is="notificationComponents[item.type].component"
+            :data="item"
+            v-on:follow="follow(item)"
+            v-on:unfollow="unfollow(item)"
+          />
+          <Unknown v-else/>
+        </keep-alive>
       </div>
 
+      <!-- loadMoreKey -->
       <vue-loading
         type="bubbles"
         style="margin-top: 10px"
@@ -77,7 +33,7 @@
         v-if="isLoadMoreKeyEnabled"
       ></vue-loading>
 
-      <!-- Prevent to load more data -->
+      <!-- Prevent to loadMoreKey -->
       <div
         class="notification-full-data"
         v-if="!isLoadMoreKeyEnabled && notificationList.length >= 300"
@@ -141,6 +97,62 @@ export default class Home extends Vue {
   isGettingNotificationList: boolean = true;
   isLoadMoreKeyEnabled: boolean = false;
   isLoadingMoreKey: boolean = false;
+  notificationComponents: Object = {
+    ANSWER_QUESTION: {
+      component: AnswerQuestion
+    },
+    COMMENT_AND_REPOST: {
+      component: CommentAndRepost
+    },
+    COMMENT_ANSWER: {
+      component: CommentAnswer
+    },
+    COMMENT_PERSONAL_UPDATE: {
+      component: CommentPersonalUpdate
+    },
+    LIKE_ANSWER_COMMENT: {
+      component: LikeAnswerComment
+    },
+    LIKE_AVATAR: {
+      component: LikeAvatar
+    },
+    LIKE_COMMENT: {
+      component: LikeComment
+    },
+    LIKE_PERSONAL_UPDATE: {
+      component: LikePersonalUpdate
+    },
+    LIKE_PERSONAL_UPDATE_COMMENT: {
+      component: LikePersonalUpdateComment
+    },
+    LIKE_QUESTION: {
+      component: LikeQuestion
+    },
+    MENTION: {
+      component: Mention
+    },
+    PERSONAL_UPDATE_REPOSTED: {
+      component: PersonalUpdateReposted
+    },
+    REPLIED_TO_ANSWER_COMMENT: {
+      component: RepliedToAnswerComment
+    },
+    REPLIED_TO_PERSONAL_UPDATE_COMMENT: {
+      component: RepliedToPersonalUpdateComment
+    },
+    REPLY_TO_COMMENT: {
+      component: ReplyToComment
+    },
+    REPOST: {
+      component: Repost
+    },
+    UPVOTE_ANSWER: {
+      component: UpvoteAnswer
+    },
+    USER_FOLLOWED: {
+      component: UserFollowed
+    }
+  };
   notificationList: Array<object> = [];
   loadMoreKey: object = {};
 

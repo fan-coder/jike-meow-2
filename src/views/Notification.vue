@@ -3,11 +3,7 @@
     <Header/>
 
     <main v-if="isGettingNotificationList">
-      <vue-loading
-        type="bubbles"
-        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
-        :size="{ width: '60px', height: '60px' }"
-      ></vue-loading>
+      <meow-loading style="margin-top: 150px"/>
     </main>
 
     <main v-else @scroll="scrollToLoadMore">
@@ -25,13 +21,7 @@
       </div>
 
       <!-- loadMoreKey -->
-      <vue-loading
-        type="bubbles"
-        style="margin-top: 10px"
-        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
-        :size="{ width: '60px', height: '60px' }"
-        v-if="isLoadMoreKeyEnabled"
-      ></vue-loading>
+      <meow-loading v-if="isLoadMoreKeyEnabled" style="margin-top: 10px"/>
 
       <!-- Prevent to loadMoreKey -->
       <div
@@ -179,9 +169,7 @@ export default class Home extends Vue {
         this.isLoadMoreKeyEnabled = true;
         if (!RESPONSE.loadMoreKey) this.isLoadMoreKeyEnabled = false;
 
-        setTimeout(() => {
-          this.isGettingNotificationList = false;
-        }, 1000);
+        this.isGettingNotificationList = false;
         this.isLoadingMoreKey = false;
       })
       .catch((err: any) => {
@@ -244,10 +232,6 @@ main {
   width: 100%;
   padding: 50px 0 20px 0;
   overflow-y: auto;
-}
-
-div.vue-loading {
-  margin-top: 150px;
 }
 
 /* Prevent to load more data */

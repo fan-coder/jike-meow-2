@@ -3,11 +3,7 @@
     <Back title="关注我的人"/>
 
     <main v-if="isGettingFollowerList">
-      <vue-loading
-        type="bubbles"
-        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
-        :size="{ width: '60px', height: '60px' }"
-      ></vue-loading>
+      <meow-loading style="margin-top: 150px"/>
     </main>
 
     <main v-else @scroll="scrollToLoadMore">
@@ -39,13 +35,7 @@
         <button class="notFollowing" v-else @click.self.stop="follow(people, people.username)">关注</button>
       </div>
 
-      <vue-loading
-        type="bubbles"
-        style="margin-top: 0;"
-        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
-        :size="{ width: '60px', height: '60px' }"
-        v-if="isLoadMoreKeyEnabled"
-      ></vue-loading>
+      <meow-loading v-if="isLoadMoreKeyEnabled" style="margin-top: 0"/>
 
       <div class="follower-empty" v-if="!isGettingFollowerList && data.length <= 0">
         <div>
@@ -148,9 +138,7 @@ export default class Home extends Vue {
           this.data = this.data.concat(arr);
         }
 
-        setTimeout(() => {
-          this.isGettingFollowerList = false;
-        }, 1000);
+        this.isGettingFollowerList = false;
         this.isLoadingMoreKey = false;
       })
       .catch(err => {
@@ -197,10 +185,6 @@ main {
   width: 100%;
   padding: 50px 0 15px 0;
   overflow-y: auto;
-}
-
-div.vue-loading {
-  margin-top: 150px;
 }
 
 div.follower-profile {

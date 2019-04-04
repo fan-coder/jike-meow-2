@@ -3,11 +3,7 @@
     <Header/>
 
     <main>
-      <vue-loading
-        type="bubbles"
-        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
-        :size="{ width: '60px', height: '60px' }"
-      ></vue-loading>
+      <meow-loading style="margin-top: 150px"/>
     </main>
   </div>
 </template>
@@ -29,9 +25,5 @@ main {
   display: block;
   width: 100%;
   padding: 50px 0 20px 0;
-}
-
-div.vue-loading {
-  margin-top: 150px;
 }
 </style>

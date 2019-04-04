@@ -3,11 +3,7 @@
     <Back title="账号设置"/>
 
     <main v-if="isGettingProfileData">
-      <vue-loading
-        type="bubbles"
-        :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
-        :size="{ width: '60px', height: '60px' }"
-      ></vue-loading>
+      <meow-loading style="margin-top: 150px"/>
     </main>
 
     <main ref="main" v-else>
@@ -72,10 +68,7 @@ export default class Home extends Vue {
         RESPONSE.user.refreshToken = localStorage["refreshToken"];
         this.accountList = this.accountList.concat(RESPONSE.user);
         this.currentUsername = RESPONSE.user.username;
-
-        setTimeout(() => {
-          this.isGettingProfileData = false;
-        }, 1000);
+        this.isGettingProfileData = false;
 
         // Get Cached Account Data
         const STORAGE_TOKEN = localStorage["storageToken"];
@@ -201,10 +194,6 @@ main {
   display: block;
   width: 100%;
   padding: 50px 0 15px 0;
-}
-
-div.vue-loading {
-  margin-top: 150px;
 }
 
 div.settings-profile {

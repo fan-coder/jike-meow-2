@@ -60,6 +60,7 @@
     </main>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { setTimeout } from "timers";
@@ -122,6 +123,7 @@ export default class Home extends Vue {
   }
 }
 </script>
+
 <style scoped>
 main {
   display: block;

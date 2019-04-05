@@ -3,6 +3,7 @@
     <img :src="data.referenceItem.referenceImageUrl">
   </div>
 </template>
+
 <script lang="ts">
 import func from "@/function";
 import { Component, Vue } from "vue-property-decorator";
@@ -16,6 +17,7 @@ export default class Home extends Vue {
   }
 }
 </script>
+
 <style scoped>
 div.image {
   cursor: pointer;

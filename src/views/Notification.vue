@@ -32,6 +32,15 @@
         <p>去客户端里看吧～</p>
       </div>
     </main>
+
+    <!-- Refresh -->
+    <el-button
+      type="primary"
+      icon="el-icon-refresh"
+      circle
+      :loading="isGettingNotificationList"
+      @click.stop="refresh"
+    ></el-button>
   </div>
 </template>
 
@@ -203,6 +212,14 @@ export default class Home extends Vue {
     this.getNotificationList();
   }
 
+  refresh() {
+    this.notificationList = [];
+    this.loadMoreKey = {};
+    this.isLoadMoreKeyEnabled = true;
+    this.isGettingNotificationList = true;
+    this.getNotificationList();
+  }
+
   follow(item: any) {
     api.follow(item.actionItem.users[0].username).then((res: any) => {
       const RESPONSE = res.data;
@@ -261,5 +278,14 @@ div.notification-full-data p {
   font-weight: 500;
   line-height: 1.6;
   text-align: center;
+}
+
+/* Refresh */
+button.el-button.el-button--primary.is-circle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  color: #000;
+  font-size: 20px;
 }
 </style>

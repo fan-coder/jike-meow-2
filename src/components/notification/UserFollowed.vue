@@ -182,15 +182,13 @@ div.follower.dark button:hover::after {
   background-color: #888;
 }
 button.notFollowing::after {
+  content: "关注";
   color: #000;
   background-color: #ffe411;
 }
 div.follower.dark button.notFollowing::after {
   color: #000;
   background-color: #ffe411;
-}
-button.notFollowing::after {
-  content: "关注";
 }
 button.notFollowing:hover::after {
   content: "关注";

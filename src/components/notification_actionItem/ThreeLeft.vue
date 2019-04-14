@@ -8,6 +8,7 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
@@ -16,6 +17,7 @@ import { Component, Vue } from "vue-property-decorator";
 })
 export default class Home extends Vue {}
 </script>
+
 <style scoped>
 div.notification-left {
   display: inline-block;

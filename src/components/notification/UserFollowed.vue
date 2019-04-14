@@ -28,6 +28,7 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
@@ -36,6 +37,7 @@ import { Component, Vue } from "vue-property-decorator";
 })
 export default class Home extends Vue {}
 </script>
+
 <style scoped>
 div.follower {
   display: block;
@@ -180,15 +182,13 @@ div.follower.dark button:hover::after {
   background-color: #888;
 }
 button.notFollowing::after {
+  content: "关注";
   color: #000;
   background-color: #ffe411;
 }
 div.follower.dark button.notFollowing::after {
   color: #000;
   background-color: #ffe411;
-}
-button.notFollowing::after {
-  content: "关注";
 }
 button.notFollowing:hover::after {
   content: "关注";

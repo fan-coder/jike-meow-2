@@ -4,6 +4,7 @@
     <meow-nr-image v-else :data="data"/>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
@@ -12,6 +13,7 @@ import { Component, Vue } from "vue-property-decorator";
 })
 export default class Home extends Vue {}
 </script>
+
 <style scoped>
 div.notification-right {
   display: inline-block;

@@ -5,6 +5,7 @@
     @click.stop="link"
   >{{ data.referenceItem.content }}</div>
 </template>
+
 <script lang="ts">
 import func from "@/function";
 import { Component, Vue } from "vue-property-decorator";
@@ -18,6 +19,7 @@ export default class Home extends Vue {
   }
 }
 </script>
+
 <style scoped>
 div.content {
   cursor: pointer;

@@ -8,6 +8,7 @@
     <ThreeRight :data="data"/>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import ThreeLeft from "@/components/notification_actionItem/ThreeLeft.vue";
@@ -20,6 +21,7 @@ import ThreeRight from "@/components/notification_actionItem/ThreeRight.vue";
 })
 export default class Home extends Vue {}
 </script>
+
 <style scoped>
 div.notification {
   display: block;

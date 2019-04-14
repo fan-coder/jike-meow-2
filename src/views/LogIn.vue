@@ -42,6 +42,7 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import QRCode from "qrcode";
@@ -200,6 +201,7 @@ export default class Home extends Vue {
   }
 }
 </script>
+
 <style scoped>
 div.home {
   display: flex;

@@ -13,12 +13,14 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Home extends Vue {}
 </script>
+
 <style scoped>
 div.unknown {
   display: block;

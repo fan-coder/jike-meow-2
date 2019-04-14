@@ -4,6 +4,7 @@
     <ThreeRight :data="data"/>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import TwoLeft from "@/components/notification_actionItem/TwoLeft.vue";
@@ -15,6 +16,7 @@ import ThreeRight from "@/components/notification_actionItem/ThreeRight.vue";
 })
 export default class Home extends Vue {}
 </script>
+
 <style scoped>
 div.liked {
   display: block;

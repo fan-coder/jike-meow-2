@@ -38,6 +38,7 @@
     </main>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import api from "@/api";
@@ -189,6 +190,7 @@ export default class Home extends Vue {
   }
 }
 </script>
+
 <style scoped>
 main {
   display: block;

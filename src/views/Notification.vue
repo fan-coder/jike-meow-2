@@ -13,8 +13,8 @@
             v-if="notificationComponents[item.type]"
             :is="notificationComponents[item.type].component"
             :data="item"
-            v-on:follow="follow(item)"
-            v-on:unfollow="unfollow(item)"
+            @follow="follow(item)"
+            @unfollow="unfollow(item)"
           />
           <Unknown v-else/>
         </keep-alive>
@@ -32,8 +32,18 @@
         <p>去客户端里看吧～</p>
       </div>
     </main>
+
+    <!-- Refresh -->
+    <el-button
+      type="primary"
+      icon="el-icon-refresh"
+      circle
+      :loading="isGettingNotificationList"
+      @click.stop="refresh"
+    ></el-button>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import api from "@/api";
@@ -202,6 +212,14 @@ export default class Home extends Vue {
     this.getNotificationList();
   }
 
+  refresh() {
+    this.notificationList = [];
+    this.loadMoreKey = {};
+    this.isLoadMoreKeyEnabled = true;
+    this.isGettingNotificationList = true;
+    this.getNotificationList();
+  }
+
   follow(item: any) {
     api.follow(item.actionItem.users[0].username).then((res: any) => {
       const RESPONSE = res.data;
@@ -225,6 +243,7 @@ export default class Home extends Vue {
   }
 }
 </script>
+
 <style scoped>
 main {
   display: block;
@@ -259,5 +278,14 @@ div.notification-full-data p {
   font-weight: 500;
   line-height: 1.6;
   text-align: center;
+}
+
+/* Refresh */
+button.el-button.el-button--primary.is-circle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  color: #000;
+  font-size: 20px;
 }
 </style>

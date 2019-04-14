@@ -31,8 +31,8 @@
           @mouseover="people.isHover = true;"
           @mouseleave="people.isHover = false;"
           @click.self.stop="unfollow(people, people.username)"
-        >{{ people.isHover === true ? '取消关注' : '已关注' }}</button>
-        <button class="notFollowing" v-else @click.self.stop="follow(people, people.username)">关注</button>
+        ></button>
+        <button class="notFollowing" v-else @click.self.stop="follow(people, people.username)"></button>
       </div>
 
       <meow-loading v-if="isLoadMoreKeyEnabled" style="margin-top: 0"/>
@@ -60,6 +60,7 @@
     </main>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { setTimeout } from "timers";
@@ -126,15 +127,14 @@ export default class Home extends Vue {
 
         if (RESPONSE.success === true) {
           let arr: object[] = [];
+          arr.push(...RESPONSE.data);
 
-          RESPONSE.data.map((item: any) => {
-            item.isHover = false;
-            arr.push(item);
-          });
-
-          this.isLoadMoreKeyEnabled = true;
-          this.loadMoreKey = RESPONSE.loadMoreKey;
-          if (!RESPONSE.loadMoreKey) this.isLoadMoreKeyEnabled = false;
+          if (!RESPONSE.loadMoreKey) {
+            this.isLoadMoreKeyEnabled = false;
+          } else {
+            this.isLoadMoreKeyEnabled = true;
+            this.loadMoreKey = RESPONSE.loadMoreKey;
+          }
           this.data = this.data.concat(arr);
         }
 
@@ -178,6 +178,7 @@ export default class Home extends Vue {
   }
 }
 </script>
+
 <style scoped>
 main {
   display: block;
@@ -226,12 +227,25 @@ div.follower-profile > div {
   width: calc(100% - 170px);
   margin-left: 20px;
 }
+
+/* Button */
 div.follower-profile > button {
   cursor: pointer;
   display: inline-block;
   vertical-align: middle;
+  height: 30px;
   width: 90px;
   margin-left: 10px;
+  background-color: transparent;
+}
+div.follower-profile > button::after {
+  content: "已关注";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   font-size: 13px;
   font-weight: 500;
   line-height: 30px;
@@ -240,23 +254,29 @@ div.follower-profile > button {
   border-radius: 30px;
   text-align: center;
 }
-div.follower.dark div.follower-profile > button {
-  background-color: #262626;
-}
-div.follower-profile > button:hover {
+div.follower-profile > button:hover::after {
+  content: "取消关注";
   background-color: #909090;
 }
-div.follower.dark div.follower-profile > button:hover {
+
+div.follower.dark div.follower-profile > button::after {
+  background-color: #262626;
+}
+div.follower.dark div.follower-profile > button:hover::after {
   background-color: #888;
 }
-div.follower.dark div.follower-profile > button.notFollowing,
-div.follower-profile > button.notFollowing {
+
+div.follower-profile > button.notFollowing::after {
+  content: "关注";
   color: #000;
   background-color: #ffe411;
 }
-div.follower-profile > button.notFollowing:hover {
+div.follower.dark div.follower-profile > button.notFollowing::after {
   color: #000;
   background-color: #ffe411;
+}
+div.follower-profile > button.notFollowing:hover::after {
+  content: "关注";
 }
 p.follower-profile-name {
   display: block;
@@ -285,7 +305,7 @@ p.follower-profile-title > span {
   text-overflow: ellipsis;
 }
 
-/* 空数据 */
+/* No data */
 div.follower-empty {
   display: flex;
   justify-content: center;

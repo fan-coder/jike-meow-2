@@ -13,8 +13,8 @@
             v-if="notificationComponents[item.type]"
             :is="notificationComponents[item.type].component"
             :data="item"
-            v-on:follow="follow(item)"
-            v-on:unfollow="unfollow(item)"
+            @follow="follow(item)"
+            @unfollow="unfollow(item)"
           />
           <Unknown v-else/>
         </keep-alive>

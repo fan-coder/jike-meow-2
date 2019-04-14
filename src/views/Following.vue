@@ -125,9 +125,12 @@ export default class Home extends Vue {
           let arr: object[] = [];
           arr.push(...RESPONSE.data);
 
-          this.isLoadMoreKeyEnabled = true;
-          this.loadMoreKey = RESPONSE.loadMoreKey;
-          if (!RESPONSE.loadMoreKey) this.isLoadMoreKeyEnabled = false;
+          if (!RESPONSE.loadMoreKey) {
+            this.isLoadMoreKeyEnabled = false;
+          } else {
+            this.isLoadMoreKeyEnabled = true;
+            this.loadMoreKey = RESPONSE.loadMoreKey;
+          }
           this.data = this.data.concat(arr);
         }
 

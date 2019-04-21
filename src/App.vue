@@ -76,7 +76,7 @@ div.el-message-box button.el-button--primary {
 
 img.alert-image {
   display: block;
-  max-height: 300px;
+  max-height: 280px;
   width: 100%;
   object-fit: cover;
 }

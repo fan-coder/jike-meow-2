@@ -63,15 +63,12 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { setTimeout } from "timers";
 import api from "@/api";
 import func from "@/function";
 import Back from "@/components/Back.vue";
 
 @Component({
-  components: {
-    Back
-  }
+  components: { Back }
 })
 export default class Home extends Vue {
   isGettingFollowingList: boolean = true;
@@ -93,59 +90,11 @@ export default class Home extends Vue {
       return;
     }
 
-    // Get following users
     this.isGettingFollowingList = true;
     this.getFollowingList();
-
-    // Scroll to load more data
-    window.onscroll = () => {
-      const OFFSET_TOP = window.scrollY + window.innerHeight;
-      const FIRE_POINT = this.data.length * 80 - 300;
-
-      if (OFFSET_TOP > FIRE_POINT) {
-        if (
-          this.isGettingFollowingList === true ||
-          this.isLoadingMoreKey === true ||
-          this.isLoadMoreKeyEnabled === false
-        )
-          return;
-
-        this.loadMoreData();
-      }
-    };
   }
 
-  getFollowingList() {
-    api
-      .getFollowingList(this.loadMoreKey, this.$route.query.username)
-      .then((data: any) => {
-        const RESPONSE = data.data;
-
-        if (RESPONSE.success === true) {
-          let arr: object[] = [];
-          arr.push(...RESPONSE.data);
-
-          if (!RESPONSE.loadMoreKey) {
-            this.isLoadMoreKeyEnabled = false;
-          } else {
-            this.isLoadMoreKeyEnabled = true;
-            this.loadMoreKey = RESPONSE.loadMoreKey;
-          }
-          this.data = this.data.concat(arr);
-        }
-
-        this.isGettingFollowingList = false;
-        this.isLoadingMoreKey = false;
-      })
-      .catch(err => {
-        this.isGettingFollowingList = false;
-        this.isLoadingMoreKey = false;
-        if (err.response.status === 401) {
-          func.refreshToken(this.getFollowingList());
-        }
-      });
-  }
-
+  /* Scroll Fire Point */
   scrollToLoadMore(e: any) {
     const OFFSET_TOP = e.target.scrollTop + 500;
     const FIRE_POINT = this.data.length * 80;
@@ -161,6 +110,40 @@ export default class Home extends Vue {
     }
   }
 
+  /* Fetch */
+  getFollowingList() {
+    api
+      .getFollowingList(this.loadMoreKey, this.$route.query.username)
+      .then((data: any) => {
+        const RESPONSE = data.data;
+
+        if (RESPONSE.success === true) {
+          if (!RESPONSE.loadMoreKey) {
+            this.isLoadMoreKeyEnabled = false;
+          } else {
+            this.isLoadMoreKeyEnabled = true;
+            this.loadMoreKey = RESPONSE.loadMoreKey;
+          }
+
+          let arr: object[] = [];
+          arr.push(...RESPONSE.data);
+          this.data = this.data.concat(arr);
+        }
+
+        this.isGettingFollowingList = false;
+        this.isLoadingMoreKey = false;
+      })
+      .catch(err => {
+        if (err.response.status === 401) {
+          func.refreshToken(this.getFollowingList());
+          return;
+        }
+        this.isGettingFollowingList = false;
+        this.isLoadingMoreKey = false;
+      });
+  }
+
+  /* Fetch More */
   loadMoreData() {
     if (!this.isLoadMoreKeyEnabled) return;
     this.isLoadingMoreKey = true;
@@ -172,6 +155,7 @@ export default class Home extends Vue {
     window.open(`https://web.okjike.com/user/${username}/post`);
   }
 
+  /* Follow & Unfollow */
   follow(item: { following: boolean }, username: string) {
     api.follow(username).then((res: any) => {
       const RESPONSE = res.data;
@@ -182,7 +166,6 @@ export default class Home extends Vue {
       }
     });
   }
-
   unfollow(item: { following: boolean }, username: string) {
     api.unfollow(username).then((res: any) => {
       const RESPONSE = res.data;
@@ -215,6 +198,7 @@ div.following-profile {
 div.following-profile > i {
   cursor: pointer;
   display: inline-block;
+  position: relative;
   vertical-align: middle;
   height: 50px;
   width: 50px;
@@ -249,6 +233,7 @@ div.following-profile > div {
 div.following-profile > button {
   cursor: pointer;
   display: inline-block;
+  position: relative;
   vertical-align: middle;
   height: 30px;
   width: 90px;

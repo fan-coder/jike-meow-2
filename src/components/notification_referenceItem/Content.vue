@@ -31,13 +31,13 @@ div.content {
   font-size: 12px;
   font-weight: 500;
   line-height: 20px;
-  color: #999;
+  color: #909399;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 div.content.dark {
-  color: #e1e2e3;
+  color: #e4e7ed;
 }
 </style>

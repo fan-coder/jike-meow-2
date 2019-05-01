@@ -19,7 +19,7 @@ div.block {
   height: 80px;
   width: 100%;
   line-height: 80px;
-  background-color: #efefef;
+  background-color: #e4e7ed;
   border-radius: 4px;
   text-align: center;
   transition: all 0.25s ease-in-out;

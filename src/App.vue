@@ -17,7 +17,6 @@ export default class Home extends Vue {}
   padding: 0;
   outline: none;
   border: 0;
-  position: relative;
   box-sizing: border-box;
 }
 
@@ -42,13 +41,11 @@ body {
   height: 500px;
   width: 350px;
   margin: auto;
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
-    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", Arial, sans-serif;
   font-size: 14px;
   font-weight: 500;
-  color: #000;
+  color: #303133;
   background: #fff;
-  min-width: 320px;
   overflow: hidden;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -59,14 +56,8 @@ body.dark {
   background: #323639;
 }
 
-div.el-message {
-  min-width: 200px;
-  width: 90%;
-  max-width: 400px;
-}
-
 div.el-message-box button.el-button {
-  color: #000;
+  color: #303133;
   background-color: #fff;
 }
 div.el-message-box button.el-button--primary {

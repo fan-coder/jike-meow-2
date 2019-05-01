@@ -1,5 +1,6 @@
 <template>
   <div class="notification-left" :class="{ dark: $store.state.isDarkMode }">
+    <!-- Text -->
     <div class="text">
       <a
         v-for="user in data.actionItem.users"
@@ -10,6 +11,8 @@
       <span v-if="data.actionItem.usersCount >= 3">等 {{ data.actionItem.usersCount }} 人</span>
       <span>{{ actionDescription }}</span>
     </div>
+
+    <!-- Avatars -->
     <div class="avatars">
       <i
         v-for="avatar in data.actionItem.users"
@@ -18,6 +21,8 @@
         :class="{ isVerified: avatar.isVerified }"
       ></i>
     </div>
+
+    <!-- Post Time -->
     <div class="time">{{ data.createdAt | reformatTime }}</div>
   </div>
 </template>
@@ -31,80 +36,89 @@ import { Component, Vue } from "vue-property-decorator";
 export default class Home extends Vue {}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 div.notification-left {
   display: inline-block;
   vertical-align: top;
   width: calc(100% - 85px);
   margin-right: 15px;
+
+  div.text {
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #606266;
+
+    & > a {
+      color: #303133;
+    }
+    & > a + a::before {
+      content: "、";
+    }
+  }
+
+  div.avatars {
+    display: block;
+    padding-top: 10px;
+
+    & > i {
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      height: 30px;
+      width: 30px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      background: #e4e7ed center no-repeat;
+      background-size: cover;
+    }
+
+    & > i:first-child {
+      margin-left: -2px;
+    }
+
+    & > i + i {
+      margin-left: -5px;
+    }
+
+    & > i.isVerified::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      bottom: -1px;
+      height: 11px;
+      width: 11px;
+      background: url("../../assets/verified.svg") center no-repeat;
+      background-size: 100%;
+    }
+  }
+
+  div.time {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #909399;
+  }
 }
 
-/* 左侧文案 */
-div.text {
-  display: block;
-  width: 100%;
-  font-size: 14px;
-  line-height: 1.6;
-  color: #808080;
-}
-div.notification-left.dark div.text {
-  color: #bbb;
-}
-div.text > a {
-  color: #000;
-}
-div.text > a + a::before {
-  content: "、";
-}
-div.notification-left.dark div.text > a {
-  color: #fff;
-}
+div.notification-left.dark {
+  div.text {
+    color: #c0c4cc;
 
-/* 左侧头像 */
-div.avatars {
-  display: block;
-  padding-top: 10px;
-}
-div.avatars > i {
-  display: inline-block;
-  vertical-align: middle;
-  height: 30px;
-  width: 30px;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  background: #e1e2e3 center no-repeat;
-  background-size: cover;
-}
-div.avatars > i.isVerified::after {
-  content: "";
-  position: absolute;
-  right: -1px;
-  bottom: -1px;
-  height: 11px;
-  width: 11px;
-  background: url("../../assets/verified.svg") center no-repeat;
-  background-size: 100%;
-}
-div.notification-left.dark div.avatars > i {
-  border-color: #323639;
-  background-color: #262626;
-}
-div.avatars > i:first-child {
-  margin-left: -2px;
-}
-div.avatars > i + i {
-  margin-left: -5px;
-}
+    & > a {
+      color: #fff;
+    }
+  }
 
-/* 左侧时间 */
-div.time {
-  display: block;
-  margin-top: 10px;
-  font-size: 12px;
-  line-height: 1.6;
-  color: #999;
-}
-div.notification-left.dark div.time {
-  color: #bbb;
+  div.avatars > i {
+    border-color: #262626;
+    background-color: #262626;
+  }
+
+  div.time {
+    color: #c0c4cc;
+  }
 }
 </style>

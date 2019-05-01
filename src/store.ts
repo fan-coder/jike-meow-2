@@ -9,8 +9,9 @@ const store = new Vuex.Store({
     isDarkMode: false
   },
   mutations: {
-    changeTheme(state, payload = false) {
-      state.isDarkMode = payload;
+    updateTheme(state, payload = false) {
+      state.isDarkMode = payload.status;
+
       if (state.isDarkMode === false) {
         document.body.className = "";
         localStorage.setItem("theme", "light");
@@ -39,10 +40,13 @@ const store = new Vuex.Store({
   }
 });
 
-// Change default theme config
+// Default Theme
 const THEME = localStorage["theme"];
 if (THEME && THEME === "dark") {
-  store.commit("changeTheme", true);
+  store.commit({
+    type: "updateTheme",
+    status: true
+  });
 }
 
 export default store;

@@ -48,6 +48,7 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import api from "@/api";
 import func from "@/function";
+
 import Header from "@/components/Header.vue";
 import AnswerQuestion from "@/components/notification/AnswerQuestion.vue";
 import CommentAndRepost from "@/components/notification/CommentAndRepost.vue";
@@ -168,29 +169,34 @@ export default class Home extends Vue {
     this.getNotificationList();
   }
 
+  /* Fetch */
   getNotificationList() {
     api
       .getNotificationList(this.loadMoreKey)
       .then((data: any) => {
         const RESPONSE = data.data;
+
         this.notificationList = this.notificationList.concat(RESPONSE.data);
         this.loadMoreKey = RESPONSE.loadMoreKey;
-
         this.isLoadMoreKeyEnabled = true;
+
         if (!RESPONSE.loadMoreKey) this.isLoadMoreKeyEnabled = false;
 
         this.isGettingNotificationList = false;
         this.isLoadingMoreKey = false;
       })
       .catch((err: any) => {
-        this.isGettingNotificationList = false;
-        this.isLoadingMoreKey = false;
         if (err.response.status === 401) {
           func.refreshToken(this.getNotificationList());
+          return;
         }
+
+        this.isGettingNotificationList = false;
+        this.isLoadingMoreKey = false;
       });
   }
 
+  /* Scroll Fire Point */
   scrollToLoadMore(e: any) {
     const OFFSET_TOP = e.target.scrollTop + 500;
     const FIRE_POINT = this.notificationList.length * 100;
@@ -206,20 +212,23 @@ export default class Home extends Vue {
     }
   }
 
+  /* Fetch More */
   loadMoreData() {
     if (!this.isLoadMoreKeyEnabled) return;
     this.isLoadingMoreKey = true;
     this.getNotificationList();
   }
 
+  /* Refetch */
   refresh() {
-    this.notificationList = [];
     this.loadMoreKey = {};
     this.isLoadMoreKeyEnabled = true;
+    this.notificationList = [];
     this.isGettingNotificationList = true;
     this.getNotificationList();
   }
 
+  /* Follow & Unfollow */
   follow(item: any) {
     api.follow(item.actionItem.users[0].username).then((res: any) => {
       const RESPONSE = res.data;
@@ -230,7 +239,6 @@ export default class Home extends Vue {
       }
     });
   }
-
   unfollow(item: any) {
     api.unfollow(item.actionItem.users[0].username).then((res: any) => {
       const RESPONSE = res.data;
@@ -285,7 +293,8 @@ button.el-button.el-button--primary.is-circle {
   position: fixed;
   right: 20px;
   bottom: 20px;
-  color: #000;
+  color: #303133;
   font-size: 20px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 </style>

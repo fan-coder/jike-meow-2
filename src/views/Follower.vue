@@ -63,15 +63,12 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { setTimeout } from "timers";
 import api from "@/api";
 import func from "@/function";
 import Back from "@/components/Back.vue";
 
 @Component({
-  components: {
-    Back
-  }
+  components: { Back }
 })
 export default class Home extends Vue {
   isGettingFollowerList: boolean = true;
@@ -97,6 +94,7 @@ export default class Home extends Vue {
     this.getFollowerList();
   }
 
+  /* Scroll Fire Point */
   scrollToLoadMore(e: any) {
     const OFFSET_TOP = e.target.scrollTop + 500;
     const FIRE_POINT = this.data.length * 80;
@@ -112,13 +110,7 @@ export default class Home extends Vue {
     }
   }
 
-  loadMoreData() {
-    if (!this.isLoadMoreKeyEnabled) return;
-
-    this.isLoadingMoreKey = true;
-    this.getFollowerList();
-  }
-
+  /* Fetch */
   getFollowerList() {
     api
       .getFollowerList(this.loadMoreKey, this.$route.query.username)
@@ -126,15 +118,15 @@ export default class Home extends Vue {
         const RESPONSE = data.data;
 
         if (RESPONSE.success === true) {
-          let arr: object[] = [];
-          arr.push(...RESPONSE.data);
-
           if (!RESPONSE.loadMoreKey) {
             this.isLoadMoreKeyEnabled = false;
           } else {
             this.isLoadMoreKeyEnabled = true;
             this.loadMoreKey = RESPONSE.loadMoreKey;
           }
+
+          let arr: object[] = [];
+          arr.push(...RESPONSE.data);
           this.data = this.data.concat(arr);
         }
 
@@ -142,12 +134,20 @@ export default class Home extends Vue {
         this.isLoadingMoreKey = false;
       })
       .catch(err => {
-        this.isGettingFollowerList = false;
-        this.isLoadingMoreKey = false;
         if (err.response.status === 401) {
           func.refreshToken(this.getFollowerList());
+          return;
         }
+        this.isGettingFollowerList = false;
+        this.isLoadingMoreKey = false;
       });
+  }
+
+  /* Fetch More */
+  loadMoreData() {
+    if (!this.isLoadMoreKeyEnabled) return;
+    this.isLoadingMoreKey = true;
+    this.getFollowerList();
   }
 
   // Open homepage in browser
@@ -155,6 +155,7 @@ export default class Home extends Vue {
     window.open(`https://web.okjike.com/user/${username}/post`);
   }
 
+  /* Follow & Unfollow */
   follow(item: { following: boolean }, username: string) {
     api.follow(username).then((res: any) => {
       const RESPONSE = res.data;
@@ -165,7 +166,6 @@ export default class Home extends Vue {
       }
     });
   }
-
   unfollow(item: { following: boolean }, username: string) {
     api.unfollow(username).then((res: any) => {
       const RESPONSE = res.data;
@@ -198,6 +198,7 @@ div.follower-profile {
 div.follower-profile > i {
   cursor: pointer;
   display: inline-block;
+  position: relative;
   vertical-align: middle;
   height: 50px;
   width: 50px;
@@ -232,6 +233,7 @@ div.follower-profile > div {
 div.follower-profile > button {
   cursor: pointer;
   display: inline-block;
+  position: relative;
   vertical-align: middle;
   height: 30px;
   width: 90px;

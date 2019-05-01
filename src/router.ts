@@ -1,7 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
+
 import api from "@/api";
 import func from "@/function";
+
 import LogIn from "@/views/LogIn.vue";
 import Tools from "@/views/Tools.vue";
 import Notification from "@/views/Notification.vue";
@@ -57,17 +59,17 @@ router.beforeEach((to, from, next) => {
   const ACCESS_TOKEN: string = localStorage["accessToken"];
   const REFRESH_TOKEN: string = localStorage["refreshToken"];
 
-  // Log status detection
   if (!ID_TOKEN || !ACCESS_TOKEN || !REFRESH_TOKEN) {
     if (to.path === "/") {
       next();
       return;
     }
+
     next("/");
     return;
   }
 
-  // Redirect logged user to default page
+  /* Redirect logged user to default page */
   if (to.path === "/") {
     const ROUTE_HISTORY: string = localStorage["routeHistory"];
     if (ROUTE_HISTORY) {
@@ -75,15 +77,17 @@ router.beforeEach((to, from, next) => {
       next(ROUTE_HISTORY);
       return;
     }
+
     next("/recommend");
     return;
   }
+
   next();
 });
 
 router.afterEach((to, from) => {
   if (to.path !== "/") {
-    // 401
+    /* 401 */
     api.profile().catch(err => {
       if (err.response.status === 401) {
         func.refreshToken();

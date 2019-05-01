@@ -7,7 +7,8 @@ For example, to overwrite the theme color:
 $--font-path: "~element-ui/lib/theme-chalk/fonts";
 $--color-primary: #ffe411;
 $--color-danger: #f44336;
-$--msgbox-width: 300px;
+$--msgbox-width: 310px;
+$--message-min-width: 310px;
 $--button-hover-tint-percent: 0;
 
 @import "~element-ui/packages/theme-chalk/src/index";

@@ -237,6 +237,7 @@ p.home-center-title {
 /* 二维码 */
 div.home-center-qr {
   display: block;
+  position: relative;
   width: 100%;
   padding-top: 100%;
   margin: auto;

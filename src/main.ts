@@ -3,7 +3,9 @@ import App from "@/App.vue";
 import router from "@/router";
 import store from "@/store";
 import axios from "axios";
+
 import VueLoading from "vue-loading-template";
+
 import "@/plugins/element.js";
 import "@/function/filter";
 import "@/components/_globals.js";

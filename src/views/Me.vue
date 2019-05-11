@@ -1,22 +1,24 @@
 <template>
   <div class="me" :class="{ dark: $store.state.isDarkMode }">
+    <!-- Title -->
     <Header/>
 
+    <!-- Load Animation -->
     <main v-if="isGettingProfileData">
       <meow-loading style="margin-top: 150px"/>
     </main>
 
     <main v-else>
       <!-- Profile -->
-      <div class="me-profile">
+      <div class="profile">
         <!-- Avatar -->
         <i
           :style="{backgroundImage: 'url(' + data.user.avatarImage.smallPicUrl + ')'}"
           :title="data.user.screenName"
         ></i>
         <div>
-          <p class="me-profile-name" :title="data.user.screenName">{{ data.user.screenName }}</p>
-          <p class="me-profile-title" v-if="data.user.isVerified" :title="data.user.verifyMessage">
+          <p class="name" :title="data.user.screenName">{{ data.user.screenName }}</p>
+          <p class="title" v-if="data.user.isVerified" :title="data.user.verifyMessage">
             <i></i>
             <span>{{ data.user.verifyMessage }}</span>
           </p>
@@ -26,12 +28,12 @@
       </div>
 
       <!-- Bio -->
-      <div class="me-bio" v-if="data.user.bio">
+      <div class="bio" v-if="data.user.bio">
         <span>{{ data.user.bio }}</span>
       </div>
 
       <!-- Following & Followers -->
-      <div class="me-follow">
+      <div class="follow">
         <div @click.stop="$router.push('/me/following?username=' + data.user.username)">
           <p>关注</p>
           <span>{{ data.user.statsCount.followingCount > 99999 ? '9999+' : data.user.statsCount.followingCount }}</span>
@@ -43,13 +45,13 @@
       </div>
 
       <!-- Dark Mode -->
-      <div class="me-dark-mode">
+      <div class="dark-mode">
         <span>夜间模式</span>
         <el-switch v-model="$store.state.isDarkMode" @change="updateTheme"></el-switch>
       </div>
 
       <!-- Log Out -->
-      <div class="me-logout">
+      <div class="logout">
         <el-button type="danger" @click.stop="logOut()">退出登录</el-button>
       </div>
     </main>
@@ -131,7 +133,7 @@ div.me {
     overflow-y: auto;
 
     /* Profile */
-    div.me-profile {
+    div.profile {
       display: block;
       position: relative;
       width: 100%;
@@ -156,7 +158,8 @@ div.me {
         width: calc(100% - 115px);
         margin-left: 20px;
 
-        p.me-profile-name {
+        /* Screen Name */
+        p.name {
           display: block;
           font-size: 17px;
           font-weight: bold;
@@ -167,7 +170,7 @@ div.me {
         }
 
         /* Verified Message */
-        p.me-profile-title {
+        p.title {
           display: block;
           margin-top: 5px;
           width: 100%;
@@ -208,7 +211,7 @@ div.me {
     }
 
     /* Bio */
-    div.me-bio {
+    div.bio {
       display: block;
       width: 100%;
       padding: 10px 30px;
@@ -222,7 +225,7 @@ div.me {
     }
 
     /* Following & Followers */
-    div.me-follow {
+    div.follow {
       display: block;
       width: 100%;
       margin-top: 10px;
@@ -263,7 +266,7 @@ div.me {
     }
 
     /* Dark Mode */
-    div.me-dark-mode {
+    div.dark-mode {
       display: block;
       width: 100%;
       margin: 20px auto 0 auto;
@@ -276,7 +279,7 @@ div.me {
     }
 
     /* Log Out */
-    div.me-logout {
+    div.logout {
       display: block;
       width: 100%;
       margin: 20px auto;
@@ -293,22 +296,31 @@ div.me {
 div.me.dark {
   main {
     /* Profile */
-    div.me-profile {
+    div.profile {
       & > i:first-child {
         background-color: #262626;
         border-color: #262626;
       }
+
+      & > div {
+        /* Verified Message */
+        p.title {
+          & > span {
+            color: #c0c4cc;
+          }
+        }
+      }
     }
 
     /* Bio */
-    div.me-bio {
+    div.bio {
       & > span {
         color: #fff;
       }
     }
 
     /* Following & Followers */
-    div.me-follow {
+    div.follow {
       & > div {
         background-color: #262626;
 

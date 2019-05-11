@@ -12,15 +12,18 @@
         ></vue-loading>
         <img class="home-center-qr-src" v-if="dataQRcode" :src="dataQRcode">
         <div class="home-center-qr-hover" v-if="isWaitingForLogin">
-          <span @click.stop="createSessions()">若二维码过期
+          <span @click.stop="createSessions()">
+            若二维码过期
             <br>点击此处手动刷新
           </span>
         </div>
       </div>
 
-      <p class="home-center-tips">使用说明:
+      <p class="home-center-tips">
+        使用说明:
         <br>
-        <span :class="{ display: !isWaitingForLogin }">1. 打开「即刻」官方客户端
+        <span :class="{ display: !isWaitingForLogin }">
+          1. 打开「即刻」官方客户端
           <br>2. 进入到「首页」
           <br>3. 点击右上角「二维码」图标
           <br>4. 扫描上方二维码

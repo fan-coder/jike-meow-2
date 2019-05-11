@@ -98,7 +98,7 @@ div.notification-center {
 
 div.notification-center.dark {
   div.text {
-    color: #909399;
+    color: #c0c4cc;
 
     & > a {
       color: #fff;
@@ -106,7 +106,7 @@ div.notification-center.dark {
   }
 
   div.time {
-    color: #909399;
+    color: #c0c4cc;
   }
 }
 </style>

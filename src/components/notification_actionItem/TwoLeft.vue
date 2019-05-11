@@ -113,7 +113,7 @@ div.notification-left.dark {
   }
 
   div.avatars > i {
-    border-color: #262626;
+    border-color: #323639;
     background-color: #262626;
   }
 

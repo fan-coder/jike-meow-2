@@ -311,6 +311,10 @@ div.me.dark {
     div.me-follow {
       & > div {
         background-color: #262626;
+
+        &:hover {
+          background-color: #ffe411;
+        }
       }
     }
   }

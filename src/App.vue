@@ -59,6 +59,7 @@ body.dark {
 div.el-message-box button.el-button {
   color: #303133;
   background-color: #fff;
+  border-color: #dcdfe6;
 }
 div.el-message-box button.el-button--primary {
   background-color: #ffe411;

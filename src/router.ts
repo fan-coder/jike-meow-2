@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import api from "@/api";
-import func from "@/function";
+
 import LogIn from "@/views/LogIn.vue";
 import Tools from "@/views/Tools.vue";
 import Notification from "@/views/Notification.vue";
@@ -17,35 +16,42 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      name: "all",
       path: "*",
       redirect: "/"
     },
     {
+      name: "root",
       path: "/",
       component: LogIn
     },
     {
+      name: "notification",
       path: "/notifications",
       component: Notification
     },
     {
+      name: "tools",
       path: "/tools",
       component: Tools
     },
     {
+      name: "me",
       path: "/me",
       component: Me
     },
     {
-      path: "/me/settings",
       name: "settings",
+      path: "/me/settings",
       component: Settings
     },
     {
+      name: "following",
       path: "/me/following",
       component: Following
     },
     {
+      name: "follower",
       path: "/me/follower",
       component: Follower
     }
@@ -57,40 +63,38 @@ router.beforeEach((to, from, next) => {
   const ACCESS_TOKEN: string = localStorage["accessToken"];
   const REFRESH_TOKEN: string = localStorage["refreshToken"];
 
-  // Log status detection
+  /* Unvalid user token  */
   if (!ID_TOKEN || !ACCESS_TOKEN || !REFRESH_TOKEN) {
     if (to.path === "/") {
       next();
       return;
     }
+
     next("/");
     return;
   }
 
-  // Redirect logged user to default page
+  /* Redirect logged user to root (login) path */
   if (to.path === "/") {
     const ROUTE_HISTORY: string = localStorage["routeHistory"];
+
     if (ROUTE_HISTORY) {
       if (ROUTE_HISTORY === "/") localStorage.removeItem("routeHistory");
       next(ROUTE_HISTORY);
       return;
     }
+
     next("/recommend");
     return;
   }
+
   next();
 });
 
 router.afterEach((to, from) => {
-  if (to.path !== "/") {
-    // 401
-    api.profile().catch(err => {
-      if (err.response.status === 401) {
-        func.refreshToken();
-      }
-    });
-    localStorage.setItem("routeHistory", to.fullPath);
-  }
+  /* Save route path to localStorage
+  To prevent visiting root path when reopen extension's window */
+  if (to.path !== "/") localStorage.setItem("routeHistory", to.fullPath);
 });
 
 export default router;

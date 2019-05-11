@@ -20,8 +20,6 @@ export default class Home extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-@import "../element-variables.scss";
-
 header {
   display: block;
   height: 50px;
@@ -36,42 +34,45 @@ header {
   font-size: 0;
   background-color: #fff;
   z-index: 9;
+
+  a {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    height: 50px;
+    width: 30%;
+  }
+  a + a {
+    margin-left: 5%;
+  }
+  a.router-link-exact-active::after {
+    content: "";
+    display: block;
+    height: 5px;
+    width: 50px;
+    position: absolute;
+    right: 50%;
+    bottom: 0;
+    transform: translateX(50%);
+    background-color: #ffe411;
+  }
+
+  span {
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 50px;
+    color: #303133;
+    text-align: center;
+  }
 }
+
 header.dark {
   background-color: #323639;
-}
 
-a {
-  cursor: pointer;
-  display: inline-block;
-  vertical-align: middle;
-  height: 50px;
-  width: 30%;
-}
-a + a {
-  margin-left: 5%;
-}
-a.router-link-exact-active::after {
-  content: "";
-  display: block;
-  height: 5px;
-  width: 50px;
-  position: absolute;
-  right: 50%;
-  bottom: 0;
-  transform: translateX(50%);
-  background-color: $--color-primary;
-}
-
-span {
-  display: block;
-  font-size: 15px;
-  font-weight: bold;
-  line-height: 50px;
-  color: #000;
-  text-align: center;
-}
-header.dark span {
-  color: #fff;
+  span {
+    color: #fff;
+  }
 }
 </style>

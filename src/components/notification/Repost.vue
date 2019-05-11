@@ -1,37 +1,24 @@
 <template>
-  <div class="notification" :class="{ dark: $store.state.isDarkMode }">
+  <Container>
     <ThreeLeft :data="data"/>
     <ThreeCenter
       :data="data"
       :actionDescription="data.referenceItem.type === 'QUESTION' ? '转发了你的问题' : '转发了你的动态'"
     />
     <ThreeRight :data="data"/>
-  </div>
+  </Container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import Container from "@/components/notification/Container.vue";
 import ThreeLeft from "@/components/notification_actionItem/ThreeLeft.vue";
 import ThreeCenter from "@/components/notification_actionItem/ThreeCenter.vue";
 import ThreeRight from "@/components/notification_actionItem/ThreeRight.vue";
 
 @Component({
   props: ["data"],
-  components: { ThreeLeft, ThreeCenter, ThreeRight }
+  components: { Container, ThreeLeft, ThreeCenter, ThreeRight }
 })
 export default class Home extends Vue {}
 </script>
-
-<style scoped>
-div.notification {
-  display: block;
-  width: calc(100% - 40px);
-  padding: 10px 0;
-  margin: 10px auto 0 auto;
-  font-size: 0;
-  border-bottom: 1px solid #efefef;
-}
-div.notification.dark {
-  border-color: #666;
-}
-</style>

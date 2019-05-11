@@ -31,7 +31,7 @@ div.image > img {
   display: block;
   height: 70px;
   width: 70px;
-  border: 1px solid #e1e2e3;
+  border: 1px solid #e4e7ed;
   border-radius: 4px;
   object-fit: cover;
 }

@@ -76,6 +76,7 @@ div.avatars {
 div.avatars > i {
   cursor: pointer;
   display: inline-block;
+  position: relative;
   vertical-align: middle;
   height: 35px;
   width: 35px;
@@ -149,6 +150,7 @@ div.follower.dark div.time {
 button {
   cursor: pointer;
   display: inline-block;
+  position: relative;
   vertical-align: middle;
   height: 30px;
   width: 100%;

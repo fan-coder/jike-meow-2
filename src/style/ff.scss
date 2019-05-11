@@ -1,0 +1,196 @@
+/* Original Theme */
+div.ff {
+  /* Profile */
+  div.profile {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 0;
+    transition: background-color 0.3s ease-in-out;
+
+    /* Avatar */
+    & > i {
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      height: 50px;
+      width: 50px;
+      background: #fff center no-repeat;
+      background-size: cover;
+      border: 1px solid #e1e2e3;
+      border-radius: 50%;
+
+      &.isVerified::after {
+        content: "";
+        position: absolute;
+        right: -2px;
+        bottom: -2px;
+        height: 16px;
+        width: 16px;
+        background: url("../assets/verified.svg") center no-repeat;
+        background-size: 100%;
+        z-index: 5;
+      }
+    }
+
+    /* Screen Name, Verified Message */
+    & > div {
+      display: inline-block;
+      vertical-align: middle;
+      width: calc(100% - 170px);
+      margin-left: 20px;
+
+      /* Screen Name */
+      p.name {
+        display: block;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 1.6;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Verified Message */
+      p.title {
+        display: block;
+        margin-top: 3px;
+        width: 100%;
+
+        & > span {
+          display: block;
+          width: 100%;
+          color: #909090;
+          font-size: 12px;
+          line-height: 1.6;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+
+    /* Button */
+    & > button {
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      height: 30px;
+      width: 90px;
+      margin-left: 10px;
+      background-color: transparent;
+
+      &.notFollowing::after {
+        content: "关注";
+        color: #000;
+        background-color: #ffe411;
+      }
+      &.notFollowing:hover::after {
+        content: "关注";
+      }
+
+      &::after {
+        content: "已关注";
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 30px;
+        color: #fff;
+        background-color: #c0c4cc;
+        border-radius: 30px;
+        text-align: center;
+      }
+      &:hover::after {
+        content: "取消关注";
+        background-color: #606266;
+      }
+    }
+  }
+
+  /* No data */
+  div.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 435px;
+    width: 100%;
+
+    i {
+      display: block;
+      height: 100px;
+      width: 100px;
+      margin: auto;
+      background: url("../assets/chicken-legs.svg") center no-repeat;
+      background-size: 100px;
+    }
+
+    p {
+      display: block;
+      margin-top: 25px;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+  }
+
+  /* Prevent to load more data */
+  div.full-data {
+    display: block;
+    width: 100%;
+    padding: 15px 0 30px 0;
+    box-shadow: 0px -30px 15px 0 rgba(255, 255, 255, 1);
+
+    i {
+      display: block;
+      height: 150px;
+      width: 150px;
+      margin: auto;
+      background: url("../assets/submarine.svg") center no-repeat;
+      background-size: 100%;
+    }
+
+    p {
+      display: block;
+      margin: auto;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.6;
+      text-align: center;
+    }
+  }
+}
+
+/* Dark Theme */
+div.ff.dark {
+  /* Profile */
+  div.profile {
+    & > i {
+      background-color: #262626;
+      border-color: #262626;
+    }
+
+    & > button::after {
+      background-color: #262626;
+    }
+    & > button:hover::after {
+      background-color: #606266;
+    }
+    & > button.notFollowing::after {
+      color: #000;
+      background-color: #ffe411;
+    }
+  }
+
+  /* Prevent to load more data */
+  div.full-data {
+    box-shadow: 0px -30px 15px 0 rgba(50, 54, 57, 1);
+  }
+}

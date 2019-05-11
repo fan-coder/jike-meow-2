@@ -16,7 +16,7 @@ import { Component, Vue } from "vue-property-decorator";
 export default class Home extends Vue {}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 header {
   display: block;
   height: 50px;
@@ -31,41 +31,43 @@ header {
   background-color: #fff;
   text-align: left;
   z-index: 9;
+
+  a {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    height: 50px;
+    width: 50px;
+  }
+
+  i {
+    cursor: pointer;
+    display: block;
+    height: 50px;
+    width: 50px;
+    margin-left: 20px;
+    font-size: 20px;
+    line-height: 50px;
+    color: #303133;
+  }
+
+  p {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 50%;
+    transform: translateX(50%);
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 50px;
+  }
 }
+
 header.dark {
   background-color: #323639;
-}
 
-a {
-  cursor: pointer;
-  display: inline-block;
-  vertical-align: middle;
-  height: 50px;
-  width: 50px;
-}
-
-i {
-  cursor: pointer;
-  display: block;
-  height: 50px;
-  width: 50px;
-  margin-left: 20px;
-  font-size: 20px;
-  line-height: 50px;
-  color: #000;
-}
-header.dark i {
-  color: #fff;
-}
-
-p {
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 50%;
-  transform: translateX(50%);
-  font-size: 15px;
-  font-weight: bold;
-  line-height: 50px;
+  i {
+    color: #fff;
+  }
 }
 </style>

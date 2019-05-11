@@ -191,95 +191,109 @@ export default class Home extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 main {
   display: block;
   width: 100%;
   padding: 50px 0 15px 0;
 }
 
-div.settings-profile {
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  padding: 10px 30px;
-  font-size: 0;
-  transition: background-color 0.3s ease-in-out;
-}
-div.settings-profile.current {
-  cursor: auto;
-  background-color: #efefef;
-}
-div.settings.dark div.settings-profile.current {
-  background-color: #262626;
-}
-div.settings-profile > i {
-  display: inline-block;
-  vertical-align: middle;
-  height: 50px;
-  width: 50px;
-  background: #fff center no-repeat;
-  background-size: cover;
-  border: 1px solid #e1e2e3;
-  border-radius: 50%;
-}
-div.settings.dark div.settings-profile > i {
-  background-color: #262626;
-  border-color: #262626;
-}
-div.settings-profile > div {
-  display: inline-block;
-  vertical-align: middle;
-  width: calc(100% - 70px);
-  margin-left: 20px;
-}
-p.settings-profile-name {
-  display: block;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 1.6;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+div.settings {
+  div.settings-profile {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    padding: 10px 30px;
+    font-size: 0;
+    transition: background-color 0.3s ease-in-out;
+
+    &.current {
+      cursor: auto;
+      background-color: #e4e7ed;
+    }
+
+    & > i {
+      display: inline-block;
+      vertical-align: middle;
+      height: 50px;
+      width: 50px;
+      background: #fff center no-repeat;
+      background-size: cover;
+      border: 1px solid #fff;
+      border-radius: 50%;
+    }
+
+    & > div {
+      display: inline-block;
+      vertical-align: middle;
+      width: calc(100% - 70px);
+      margin-left: 20px;
+
+      p.settings-profile-name {
+        display: block;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 1.6;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Verified Message */
+      p.settings-profile-title {
+        display: block;
+        margin-top: 3px;
+        width: 100%;
+
+        & > i {
+          content: "";
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: 5px;
+          height: 16px;
+          width: 16px;
+          background: url("../assets/verified.svg") center no-repeat;
+          background-size: 100%;
+        }
+
+        & > span {
+          display: inline-block;
+          vertical-align: middle;
+          width: calc(100% - 21px);
+          color: #909090;
+          font-size: 12px;
+          line-height: 1.6;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+
+  /* Cache New Account */
+  i.el-icon-circle-plus {
+    cursor: pointer;
+    display: block;
+    margin: 20px auto 15px auto;
+    font-size: 34px;
+    line-height: 34px;
+    width: 34px;
+    border: 0;
+    border-radius: 50%;
+  }
 }
 
-/* Verified Message */
-p.settings-profile-title {
-  display: block;
-  margin-top: 3px;
-  width: 100%;
-}
-p.settings-profile-title > i {
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 5px;
-  height: 16px;
-  width: 16px;
-  background: url("../assets/verified.svg") center no-repeat;
-  background-size: 100%;
-}
-p.settings-profile-title > span {
-  display: inline-block;
-  vertical-align: middle;
-  width: calc(100% - 21px);
-  color: #909090;
-  font-size: 12px;
-  line-height: 1.6;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+div.settings.dark {
+  div.settings-profile {
+    &.current {
+      background-color: #262626;
+    }
 
-/* Cache New Account */
-i.el-icon-circle-plus {
-  cursor: pointer;
-  display: block;
-  margin: 20px auto 15px auto;
-  font-size: 34px;
-  line-height: 34px;
-  width: 34px;
-  border: 0;
-  border-radius: 50%;
+    & > i {
+      background-color: #262626;
+      border-color: #262626;
+    }
+  }
 }
 </style>

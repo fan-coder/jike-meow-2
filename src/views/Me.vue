@@ -16,6 +16,8 @@
           :style="{backgroundImage: 'url(' + data.user.avatarImage.smallPicUrl + ')'}"
           :title="data.user.screenName"
         ></i>
+
+        <!-- Text -->
         <div>
           <p class="name" :title="data.user.screenName">{{ data.user.screenName }}</p>
           <p class="title" v-if="data.user.isVerified" :title="data.user.verifyMessage">
@@ -23,8 +25,9 @@
             <span>{{ data.user.verifyMessage }}</span>
           </p>
         </div>
+
         <!-- Account Settings -->
-        <i class="el-icon-setting" @click.self.stop="$router.push('/me/settings')"></i>
+        <i class="el-icon-s-tools" @click.self.stop="$router.push('/me/settings')"></i>
       </div>
 
       <!-- Bio -->
@@ -104,8 +107,8 @@ export default class Home extends Vue {
     this.$confirm("确认退出？", "警告", {
       confirmButtonText: "确认",
       cancelButtonText: "取消",
-      type: "info",
-      iconClass: "el-icon-download"
+      type: "warning",
+      iconClass: "el-icon-switch-button"
     })
       .then(() => {
         const STORAGE_TOKEN = localStorage["storageToken"];

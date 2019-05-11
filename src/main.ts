@@ -12,6 +12,7 @@ import "@/components/_globals.js";
 
 Vue.config.productionTip = false;
 Vue.use(VueLoading);
+Vue.use(require("vue-moment"));
 
 axios.defaults.baseURL = "https://app.jike.ruguoapp.com";
 

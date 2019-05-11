@@ -1,4 +1,5 @@
 import Vue from "vue";
+import moment from "moment";
 
 /* Convert timestamp to countdown time or a specific date */
 Vue.filter("reformatTime", (updateTime: string) => {
@@ -18,8 +19,7 @@ Vue.filter("reformatTime", (updateTime: string) => {
     } else if (LAST_TIME >= 86400000 && LAST_TIME < 2592000000) {
       return Math.round(LAST_TIME / 86400000) + "天前";
     } else if (LAST_TIME >= 2592000000) {
-      const FULL_DATE = new Date(MESSAGE_DATE);
-      return `${FULL_DATE.getFullYear()}/${FULL_DATE.getMonth()}/${FULL_DATE.getDay()}`;
+      return moment(MESSAGE_DATE).format("YYYY.MM.DD");
     }
   }
 });

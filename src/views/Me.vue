@@ -105,10 +105,11 @@ export default class Home extends Vue {
   /* Log Out */
   logOut() {
     this.$confirm("确认退出？", "警告", {
+      showClose: false,
       confirmButtonText: "确认",
       cancelButtonText: "取消",
       type: "warning",
-      iconClass: "el-icon-switch-button"
+      iconClass: "el-icon-user-solid"
     })
       .then(() => {
         const STORAGE_TOKEN = localStorage["storageToken"];

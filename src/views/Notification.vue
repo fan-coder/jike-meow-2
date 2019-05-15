@@ -24,10 +24,7 @@
       <meow-loading v-if="isLoadMoreKeyEnabled" style="margin-top: 10px"/>
 
       <!-- Prevent to loadMoreKey -->
-      <div
-        class="notification-full-data"
-        v-if="!isLoadMoreKeyEnabled && notificationList.length >= 300"
-      >
+      <div class="full-data" v-if="!isLoadMoreKeyEnabled && notificationList.length >= 300">
         <i></i>
         <p>去客户端里看吧～</p>
       </div>
@@ -252,49 +249,58 @@ export default class Home extends Vue {
 }
 </script>
 
-<style scoped>
-main {
-  display: block;
-  height: 500px;
-  width: 100%;
-  padding: 50px 0 20px 0;
-  overflow-y: auto;
+<style lang="scss" scoped>
+div.notification {
+  main {
+    display: block;
+    height: 500px;
+    width: 100%;
+    padding: 50px 0 20px 0;
+    overflow-y: auto;
+
+    /* Prevent to loadMoreKey */
+    div.full-data {
+      display: block;
+      width: 100%;
+      padding: 15px 0 30px 0;
+      box-shadow: 0px -30px 15px 0 rgba(255, 255, 255, 1);
+
+      i {
+        display: block;
+        height: 150px;
+        width: 150px;
+        margin: auto;
+        background: url("../assets/submarine.svg") center no-repeat;
+        background-size: 100%;
+      }
+
+      p {
+        display: block;
+        margin: auto;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.6;
+        text-align: center;
+      }
+    }
+  }
+
+  /* Refresh */
+  button.el-button.el-button--primary.is-circle {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    color: #303133;
+    font-size: 20px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  }
 }
 
-/* Prevent to load more data */
-div.notification-full-data {
-  display: block;
-  width: 100%;
-  padding: 15px 0 30px 0;
-  box-shadow: 0px -30px 15px 0 rgba(255, 255, 255, 1);
-}
-div.notification.dark div.notification-full-data {
-  box-shadow: 0px -30px 15px 0 rgba(50, 54, 57, 1);
-}
-div.notification-full-data i {
-  display: block;
-  height: 150px;
-  width: 150px;
-  margin: auto;
-  background: url("../assets/submarine.svg") center no-repeat;
-  background-size: 100%;
-}
-div.notification-full-data p {
-  display: block;
-  margin: auto;
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.6;
-  text-align: center;
-}
-
-/* Refresh */
-button.el-button.el-button--primary.is-circle {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  color: #303133;
-  font-size: 20px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+div.notification.dark {
+  main {
+    div.full-data {
+      box-shadow: 0px -30px 15px 0 rgba(50, 54, 57, 1);
+    }
+  }
 }
 </style>

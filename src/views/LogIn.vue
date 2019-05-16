@@ -66,9 +66,10 @@ export default class Home extends Vue {
     this.isQRcodeGenerating = true;
     this.createSessions();
 
-    // Get old token from localStorage
+    /* Get Cached Sessions */
     const STORAGE_TOKEN = localStorage["storageToken"];
     if (!STORAGE_TOKEN) return;
+
     try {
       JSON.parse(STORAGE_TOKEN);
     } catch {
@@ -79,22 +80,25 @@ export default class Home extends Vue {
     this.storageToken = JSON.parse(STORAGE_TOKEN);
   }
 
-  // Get UUID
+  /* Get UUID */
   createSessions() {
     this.isWaitingForLogin = false;
+
     api.createSessions().then((data: any) => {
       const res: any = data.data;
+
       setTimeout(() => {
         const qrURL = `jike://page.jk/web?url=https%3A%2F%2Fruguoapp.com%2Faccount%2Fscan%3Fuuid%3D${
           res.uuid
         }&displayHeader=false&displayFooter=false`;
         this.generateQRcode(qrURL);
       }, 1000);
+
       this.waitForLogin(res.uuid);
     });
   }
 
-  // Wait for login
+  /* Wait For Login */
   waitForLogin(uuid: string) {
     api
       .waitForLogin(uuid)
@@ -106,6 +110,7 @@ export default class Home extends Vue {
           this.waitForConfirmation(uuid);
           return;
         }
+
         this.createSessions();
       })
       .catch(() => {
@@ -114,7 +119,7 @@ export default class Home extends Vue {
       });
   }
 
-  // Get token
+  /* Get Token */
   waitForConfirmation(uuid: string) {
     api
       .waitForConfirmation(uuid)
@@ -127,6 +132,7 @@ export default class Home extends Vue {
             !RESPONSE["x-jike-access-token"] ||
             !RESPONSE["x-jike-refresh-token"]
           ) {
+            /* Error Detection */
             this.$message({
               showClose: true,
               message: "登录失败，或与官方数据更新有关",
@@ -141,6 +147,7 @@ export default class Home extends Vue {
             "refreshToken",
             RESPONSE["x-jike-refresh-token"]
           );
+
           this.$router.replace("/me");
           return;
         }
@@ -155,7 +162,7 @@ export default class Home extends Vue {
       });
   }
 
-  // Generate QRCode
+  /* Generate QRCode */
   generateQRcode(text: string) {
     QRCode.toDataURL(text, {
       margin: 3,
@@ -171,7 +178,7 @@ export default class Home extends Vue {
       });
   }
 
-  // Storage token
+  /* LogIn Cached Account */
   login(account: any) {
     this.$confirm(`确认登录 ID 为「${account.screenName}」的账号吗？`, "提示", {
       showClose: false,
@@ -184,6 +191,7 @@ export default class Home extends Vue {
         const accessToken = account.accessToken;
         const refreshToken = account.refreshToken;
 
+        /* Get Cached Sessions */
         if (this.storageToken.length === 1) {
           localStorage.setItem("idToken", idToken);
           localStorage.setItem("accessToken", accessToken);

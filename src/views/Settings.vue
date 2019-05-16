@@ -64,24 +64,36 @@ export default class Home extends Vue {
     api
       .profile()
       .then((data: any) => {
+        /* Get Current User Data */
         const RESPONSE = data.data;
+
         RESPONSE.user.idToken = localStorage["idToken"];
         RESPONSE.user.accessToken = localStorage["accessToken"];
         RESPONSE.user.refreshToken = localStorage["refreshToken"];
+
+        /* Add Current User To Accounts List */
         this.accountList = this.accountList.concat(RESPONSE.user);
         this.currentUsername = RESPONSE.user.username;
-        this.isGettingProfileData = false;
 
-        // Get Cached Account Data
+        /* Get Cached Account(s) */
         const STORAGE_TOKEN = localStorage["storageToken"];
-        if (!STORAGE_TOKEN) return;
+
+        /* When There's No Cached Account(s) */
+        if (!STORAGE_TOKEN) {
+          this.isGettingProfileData = false;
+          return;
+        }
+
+        /* Check Cache Scheme */
         try {
           JSON.parse(STORAGE_TOKEN);
         } catch {
           localStorage.removeItem("storageToken");
+          this.isGettingProfileData = false;
           return;
         }
 
+        /* Found Valid Account(s) */
         const STORAGE_ACCOUNT = JSON.parse(STORAGE_TOKEN);
         STORAGE_ACCOUNT.map((account: any) => {
           if (account.username !== this.currentUsername) {
@@ -89,6 +101,7 @@ export default class Home extends Vue {
           }
         });
         localStorage.setItem("storageToken", JSON.stringify(this.accountList));
+        this.isGettingProfileData = false;
       })
       .catch(err => {
         if (err.response.status === 401) {
@@ -99,6 +112,7 @@ export default class Home extends Vue {
 
   /* Cache Account(s) */
   saveAccountToStorage() {
+    /* Add Current Account(s) To List */
     let CURRENT_ACCOUNT: any = {};
 
     this.accountList.map((account: any) => {
@@ -107,6 +121,7 @@ export default class Home extends Vue {
       }
     });
 
+    /* When There's No Valid Account(s) */
     if (CURRENT_ACCOUNT === {}) {
       this.$message({
         showClose: true,
@@ -116,6 +131,7 @@ export default class Home extends Vue {
       return;
     }
 
+    /* Confirmation */
     this.$confirm("添加新账号会将当前账号临时注销，是否继续？", "警告", {
       showClose: false,
       confirmButtonText: "确认",
@@ -123,13 +139,14 @@ export default class Home extends Vue {
       type: "warning"
     })
       .then(() => {
+        /* Get Current User Data */
         const STORAGE_TOKEN = localStorage["storageToken"];
 
         CURRENT_ACCOUNT.idToken = localStorage["idToken"];
         CURRENT_ACCOUNT.accessToken = localStorage["accessToken"];
         CURRENT_ACCOUNT.refreshToken = localStorage["refreshToken"];
 
-        // Account Single Account
+        /* Only Current Account Is Existed  */
         if (!STORAGE_TOKEN) {
           localStorage.setItem(
             "storageToken",
@@ -143,7 +160,7 @@ export default class Home extends Vue {
           return;
         }
 
-        // Cache Multiple Account
+        /* Cache Multiple Account */
         let STORAGE_ACCOUNT = JSON.parse(STORAGE_TOKEN);
         STORAGE_ACCOUNT.map((account: any, index: Number) => {
           if (account.username === this.currentUsername) {
@@ -151,23 +168,25 @@ export default class Home extends Vue {
           }
         });
         STORAGE_ACCOUNT = [CURRENT_ACCOUNT].concat(STORAGE_ACCOUNT);
+
         localStorage.setItem("storageToken", JSON.stringify(STORAGE_ACCOUNT));
         localStorage.removeItem("idToken");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+
         this.$router.push("/");
       })
-      .catch(() => {
-        return;
-      });
+      .catch(() => {});
   }
 
   /* Log In Cached Account */
   login(account: any) {
     if (this.accountList.length <= 1) return;
-    // Unable to log in current user
+
+    /* Cannot Log In To The Same Account */
     if (account.username === this.currentUsername) return;
 
+    /* Confirmation */
     this.$confirm(`确认登录 ID 为「${account.screenName}」的账号吗？`, "警告", {
       showClose: false,
       confirmButtonText: "登录",
@@ -177,24 +196,22 @@ export default class Home extends Vue {
       .then(() => {
         let NEW_STORAGE_TOKEN: Array<object> = [];
         this.accountList.map((id: any, index) => {
-          // Filter other user sessions
+          /* Filter Other Sessions */
           if (account.idToken !== id.idToken) {
             id.idToken = NEW_STORAGE_TOKEN.push(id);
           } else {
-            // Store selected session to localStorage
             localStorage.setItem("idToken", account.idToken);
             localStorage.setItem("accessToken", account.accessToken);
             localStorage.setItem("refreshToken", account.refreshToken);
           }
         });
-        // Restore sessions
+
+        /* Cache Other Sessions */
         localStorage.setItem("storageToken", JSON.stringify(NEW_STORAGE_TOKEN));
 
         this.$router.push("/me");
       })
-      .catch(() => {
-        return;
-      });
+      .catch(() => {});
   }
 }
 </script>

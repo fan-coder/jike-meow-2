@@ -20,7 +20,11 @@ export default {
         }
       })
       .catch(() => {
-        Message.error("授权过期，请重新登录");
+        Message({
+          showClose: true,
+          message: "授权过期，请重新登录",
+          type: "error"
+        });
         localStorage.clear();
         router.push("/");
       });
@@ -37,7 +41,11 @@ export default {
       DATA.type === "LIKE_QUESTION" ||
       DATA.type === "UPVOTE_ANSWER"
     ) {
-      Message.warning("该动态暂不支持网页版");
+      Message({
+        showClose: true,
+        message: "该动态暂不支持网页版",
+        type: "warning"
+      });
       return;
     }
 

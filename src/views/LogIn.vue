@@ -128,6 +128,7 @@ export default class Home extends Vue {
             !RESPONSE["x-jike-refresh-token"]
           ) {
             this.$message({
+              showClose: true,
               message: "登录失败，或与官方数据更新有关",
               type: "warning"
             });
@@ -145,7 +146,11 @@ export default class Home extends Vue {
         }
       })
       .catch(() => {
-        this.$message.error("登录失败，请重新扫描二维码登录");
+        this.$message({
+          showClose: true,
+          message: "登录失败，请重新扫描二维码登录",
+          type: "error"
+        });
         return;
       });
   }
@@ -169,6 +174,7 @@ export default class Home extends Vue {
   // Storage token
   login(account: any) {
     this.$confirm(`确认登录 ID 为「${account.screenName}」的账号吗？`, "提示", {
+      showClose: false,
       confirmButtonText: "确认",
       cancelButtonText: "取消",
       type: "warning"

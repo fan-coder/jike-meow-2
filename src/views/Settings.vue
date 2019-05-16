@@ -59,6 +59,7 @@ export default class Home extends Vue {
     this.getData();
   }
 
+  /* Fetch */
   getData() {
     api
       .profile()
@@ -96,7 +97,7 @@ export default class Home extends Vue {
       });
   }
 
-  // Cache Account(s)
+  /* Cache Account(s) */
   saveAccountToStorage() {
     let CURRENT_ACCOUNT: any = {};
 
@@ -107,11 +108,16 @@ export default class Home extends Vue {
     });
 
     if (CURRENT_ACCOUNT === {}) {
-      this.$message.error("无法缓存当前帐号");
+      this.$message({
+        showClose: true,
+        message: "无法缓存当前帐号",
+        type: "error"
+      });
       return;
     }
 
     this.$confirm("添加新账号会将当前账号临时注销，是否继续？", "警告", {
+      showClose: false,
       confirmButtonText: "确认",
       cancelButtonText: "取消",
       type: "warning"
@@ -156,12 +162,14 @@ export default class Home extends Vue {
       });
   }
 
+  /* Log In Cached Account */
   login(account: any) {
     if (this.accountList.length <= 1) return;
     // Unable to log in current user
     if (account.username === this.currentUsername) return;
 
     this.$confirm(`确认登录 ID 为「${account.screenName}」的账号吗？`, "警告", {
+      showClose: false,
       confirmButtonText: "登录",
       cancelButtonText: "取消",
       type: "warning"

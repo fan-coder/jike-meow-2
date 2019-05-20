@@ -185,7 +185,7 @@ export default class Home extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "../style/ff.scss";
+@import "../style/following-and-follower.scss";
 
 main {
   display: block;

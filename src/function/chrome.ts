@@ -13,13 +13,18 @@ export default {
   storeToken: () => {
     // Now allowed in "development" env
     if (process.env.NODE_ENV === "development") {
-      Message.error("请在 Chrome Extension 上运行该功能");
+      Message({
+        showClose: true,
+        message: "当前环境错误",
+        type: "error"
+      });
       return;
     }
 
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs: any) => {
       if (tabs[0].url.indexOf("web.okjike.com") > -1) {
         MessageBox.confirm("即将登录网页版", "提示", {
+          showClose: false,
           confirmButtonText: "登录",
           cancelButtonText: "取消",
           type: "info",
@@ -40,7 +45,11 @@ export default {
           })
           .catch(() => {});
       } else {
-        Message.error("请先在浏览器中打开网页版即刻");
+        Message({
+          showClose: true,
+          message: "请先在浏览器中打开网页版即刻",
+          type: "error"
+        });
         return;
       }
     });

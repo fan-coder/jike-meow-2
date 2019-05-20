@@ -59,28 +59,41 @@ export default class Home extends Vue {
     this.getData();
   }
 
+  /* Fetch */
   getData() {
     api
       .profile()
       .then((data: any) => {
+        /* Get Current User Data */
         const RESPONSE = data.data;
+
         RESPONSE.user.idToken = localStorage["idToken"];
         RESPONSE.user.accessToken = localStorage["accessToken"];
         RESPONSE.user.refreshToken = localStorage["refreshToken"];
+
+        /* Add Current User To Accounts List */
         this.accountList = this.accountList.concat(RESPONSE.user);
         this.currentUsername = RESPONSE.user.username;
-        this.isGettingProfileData = false;
 
-        // Get Cached Account Data
+        /* Get Cached Account(s) */
         const STORAGE_TOKEN = localStorage["storageToken"];
-        if (!STORAGE_TOKEN) return;
+
+        /* When There's No Cached Account(s) */
+        if (!STORAGE_TOKEN) {
+          this.isGettingProfileData = false;
+          return;
+        }
+
+        /* Check Cache Scheme */
         try {
           JSON.parse(STORAGE_TOKEN);
         } catch {
           localStorage.removeItem("storageToken");
+          this.isGettingProfileData = false;
           return;
         }
 
+        /* Found Valid Account(s) */
         const STORAGE_ACCOUNT = JSON.parse(STORAGE_TOKEN);
         STORAGE_ACCOUNT.map((account: any) => {
           if (account.username !== this.currentUsername) {
@@ -88,6 +101,7 @@ export default class Home extends Vue {
           }
         });
         localStorage.setItem("storageToken", JSON.stringify(this.accountList));
+        this.isGettingProfileData = false;
       })
       .catch(err => {
         if (err.response.status === 401) {
@@ -96,8 +110,9 @@ export default class Home extends Vue {
       });
   }
 
-  // Cache Account(s)
+  /* Cache Account(s) */
   saveAccountToStorage() {
+    /* Add Current Account(s) To List */
     let CURRENT_ACCOUNT: any = {};
 
     this.accountList.map((account: any) => {
@@ -106,24 +121,32 @@ export default class Home extends Vue {
       }
     });
 
+    /* When There's No Valid Account(s) */
     if (CURRENT_ACCOUNT === {}) {
-      this.$message.error("无法缓存当前帐号");
+      this.$message({
+        showClose: true,
+        message: "无法缓存当前帐号",
+        type: "error"
+      });
       return;
     }
 
+    /* Confirmation */
     this.$confirm("添加新账号会将当前账号临时注销，是否继续？", "警告", {
+      showClose: false,
       confirmButtonText: "确认",
       cancelButtonText: "取消",
       type: "warning"
     })
       .then(() => {
+        /* Get Current User Data */
         const STORAGE_TOKEN = localStorage["storageToken"];
 
         CURRENT_ACCOUNT.idToken = localStorage["idToken"];
         CURRENT_ACCOUNT.accessToken = localStorage["accessToken"];
         CURRENT_ACCOUNT.refreshToken = localStorage["refreshToken"];
 
-        // Account Single Account
+        /* Only Current Account Is Existed  */
         if (!STORAGE_TOKEN) {
           localStorage.setItem(
             "storageToken",
@@ -137,7 +160,7 @@ export default class Home extends Vue {
           return;
         }
 
-        // Cache Multiple Account
+        /* Cache Multiple Account */
         let STORAGE_ACCOUNT = JSON.parse(STORAGE_TOKEN);
         STORAGE_ACCOUNT.map((account: any, index: Number) => {
           if (account.username === this.currentUsername) {
@@ -145,23 +168,27 @@ export default class Home extends Vue {
           }
         });
         STORAGE_ACCOUNT = [CURRENT_ACCOUNT].concat(STORAGE_ACCOUNT);
+
         localStorage.setItem("storageToken", JSON.stringify(STORAGE_ACCOUNT));
         localStorage.removeItem("idToken");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+
         this.$router.push("/");
       })
-      .catch(() => {
-        return;
-      });
+      .catch(() => {});
   }
 
+  /* Log In Cached Account */
   login(account: any) {
     if (this.accountList.length <= 1) return;
-    // Unable to log in current user
+
+    /* Cannot Log In To The Same Account */
     if (account.username === this.currentUsername) return;
 
+    /* Confirmation */
     this.$confirm(`确认登录 ID 为「${account.screenName}」的账号吗？`, "警告", {
+      showClose: false,
       confirmButtonText: "登录",
       cancelButtonText: "取消",
       type: "warning"
@@ -169,117 +196,129 @@ export default class Home extends Vue {
       .then(() => {
         let NEW_STORAGE_TOKEN: Array<object> = [];
         this.accountList.map((id: any, index) => {
-          // Filter other user sessions
+          /* Filter Other Sessions */
           if (account.idToken !== id.idToken) {
             id.idToken = NEW_STORAGE_TOKEN.push(id);
           } else {
-            // Store selected session to localStorage
             localStorage.setItem("idToken", account.idToken);
             localStorage.setItem("accessToken", account.accessToken);
             localStorage.setItem("refreshToken", account.refreshToken);
           }
         });
-        // Restore sessions
+
+        /* Cache Other Sessions */
         localStorage.setItem("storageToken", JSON.stringify(NEW_STORAGE_TOKEN));
 
         this.$router.push("/me");
       })
-      .catch(() => {
-        return;
-      });
+      .catch(() => {});
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 main {
   display: block;
   width: 100%;
   padding: 50px 0 15px 0;
 }
 
-div.settings-profile {
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  padding: 10px 30px;
-  font-size: 0;
-  transition: background-color 0.3s ease-in-out;
-}
-div.settings-profile.current {
-  cursor: auto;
-  background-color: #efefef;
-}
-div.settings.dark div.settings-profile.current {
-  background-color: #262626;
-}
-div.settings-profile > i {
-  display: inline-block;
-  vertical-align: middle;
-  height: 50px;
-  width: 50px;
-  background: #fff center no-repeat;
-  background-size: cover;
-  border: 1px solid #e1e2e3;
-  border-radius: 50%;
-}
-div.settings.dark div.settings-profile > i {
-  background-color: #262626;
-  border-color: #262626;
-}
-div.settings-profile > div {
-  display: inline-block;
-  vertical-align: middle;
-  width: calc(100% - 70px);
-  margin-left: 20px;
-}
-p.settings-profile-name {
-  display: block;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 1.6;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+div.settings {
+  div.settings-profile {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    padding: 10px 30px;
+    font-size: 0;
+    transition: background-color 0.3s ease-in-out;
+
+    &.current {
+      cursor: auto;
+      background-color: #e4e7ed;
+    }
+
+    & > i {
+      display: inline-block;
+      vertical-align: middle;
+      height: 50px;
+      width: 50px;
+      background: #fff center no-repeat;
+      background-size: cover;
+      border: 1px solid #fff;
+      border-radius: 50%;
+    }
+
+    & > div {
+      display: inline-block;
+      vertical-align: middle;
+      width: calc(100% - 70px);
+      margin-left: 20px;
+
+      p.settings-profile-name {
+        display: block;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 1.6;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Verified Message */
+      p.settings-profile-title {
+        display: block;
+        margin-top: 3px;
+        width: 100%;
+
+        & > i {
+          content: "";
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: 5px;
+          height: 16px;
+          width: 16px;
+          background: url("../assets/verified.svg") center no-repeat;
+          background-size: 100%;
+        }
+
+        & > span {
+          display: inline-block;
+          vertical-align: middle;
+          width: calc(100% - 21px);
+          color: #909090;
+          font-size: 12px;
+          line-height: 1.6;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+
+  /* Cache New Account */
+  i.el-icon-circle-plus {
+    cursor: pointer;
+    display: block;
+    margin: 20px auto 15px auto;
+    font-size: 34px;
+    line-height: 34px;
+    width: 34px;
+    border: 0;
+    border-radius: 50%;
+  }
 }
 
-/* Verified Message */
-p.settings-profile-title {
-  display: block;
-  margin-top: 3px;
-  width: 100%;
-}
-p.settings-profile-title > i {
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 5px;
-  height: 16px;
-  width: 16px;
-  background: url("../assets/verified.svg") center no-repeat;
-  background-size: 100%;
-}
-p.settings-profile-title > span {
-  display: inline-block;
-  vertical-align: middle;
-  width: calc(100% - 21px);
-  color: #909090;
-  font-size: 12px;
-  line-height: 1.6;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+div.settings.dark {
+  div.settings-profile {
+    &.current {
+      background-color: #262626;
+    }
 
-/* Cache New Account */
-i.el-icon-circle-plus {
-  cursor: pointer;
-  display: block;
-  margin: 20px auto 15px auto;
-  font-size: 34px;
-  line-height: 34px;
-  width: 34px;
-  border: 0;
-  border-radius: 50%;
+    & > i {
+      background-color: #262626;
+      border-color: #262626;
+    }
+  }
 }
 </style>

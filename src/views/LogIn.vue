@@ -1,17 +1,19 @@
 <template>
   <div class="home" :class="{ dark: $store.state.isDarkMode }">
-    <div class="home-center">
-      <p class="home-center-title">扫描下方二维码登录</p>
+    <div class="body">
+      <!-- Title -->
+      <p class="title">扫描下方二维码登录</p>
 
-      <div class="home-center-qr">
+      <!-- QR Code -->
+      <div class="qr">
         <vue-loading
           v-if="isQRcodeGenerating"
           type="bubbles"
           :color="$store.state.isDarkMode ? '#ffffff' : '#404040'"
           :size="{ width: '60px', height: '60px' }"
         ></vue-loading>
-        <img class="home-center-qr-src" v-if="dataQRcode" :src="dataQRcode">
-        <div class="home-center-qr-hover" v-if="isWaitingForLogin">
+        <img class="src" v-if="dataQRcode" :src="dataQRcode">
+        <div class="hover" v-if="isWaitingForLogin">
           <span @click.stop="createSessions()">
             若二维码过期
             <br>点击此处手动刷新
@@ -19,7 +21,8 @@
         </div>
       </div>
 
-      <p class="home-center-tips">
+      <!-- Notice -->
+      <p class="notice">
         使用说明:
         <br>
         <span :class="{ display: !isWaitingForLogin }">
@@ -32,7 +35,8 @@
         <span :class="{ display: isWaitingForLogin }">5. 点击「确认」即可</span>
       </p>
 
-      <div class="home-center-storage-account" v-if="storageToken.length > 0">
+      <!-- Cached Account(s) -->
+      <div class="account" v-if="storageToken.length > 0">
         <h3>检测到可登录账号</h3>
         <i
           v-for="account in storageToken"
@@ -62,9 +66,10 @@ export default class Home extends Vue {
     this.isQRcodeGenerating = true;
     this.createSessions();
 
-    // Get old token from localStorage
+    /* Get Cached Sessions */
     const STORAGE_TOKEN = localStorage["storageToken"];
     if (!STORAGE_TOKEN) return;
+
     try {
       JSON.parse(STORAGE_TOKEN);
     } catch {
@@ -75,22 +80,25 @@ export default class Home extends Vue {
     this.storageToken = JSON.parse(STORAGE_TOKEN);
   }
 
-  // Get UUID
+  /* Get UUID */
   createSessions() {
     this.isWaitingForLogin = false;
+
     api.createSessions().then((data: any) => {
       const res: any = data.data;
+
       setTimeout(() => {
         const qrURL = `jike://page.jk/web?url=https%3A%2F%2Fruguoapp.com%2Faccount%2Fscan%3Fuuid%3D${
           res.uuid
         }&displayHeader=false&displayFooter=false`;
         this.generateQRcode(qrURL);
       }, 1000);
+
       this.waitForLogin(res.uuid);
     });
   }
 
-  // Wait for login
+  /* Wait For Login */
   waitForLogin(uuid: string) {
     api
       .waitForLogin(uuid)
@@ -102,6 +110,7 @@ export default class Home extends Vue {
           this.waitForConfirmation(uuid);
           return;
         }
+
         this.createSessions();
       })
       .catch(() => {
@@ -110,7 +119,7 @@ export default class Home extends Vue {
       });
   }
 
-  // Get token
+  /* Get Token */
   waitForConfirmation(uuid: string) {
     api
       .waitForConfirmation(uuid)
@@ -123,7 +132,9 @@ export default class Home extends Vue {
             !RESPONSE["x-jike-access-token"] ||
             !RESPONSE["x-jike-refresh-token"]
           ) {
+            /* Error Detection */
             this.$message({
+              showClose: true,
               message: "登录失败，或与官方数据更新有关",
               type: "warning"
             });
@@ -136,17 +147,22 @@ export default class Home extends Vue {
             "refreshToken",
             RESPONSE["x-jike-refresh-token"]
           );
+
           this.$router.replace("/me");
           return;
         }
       })
       .catch(() => {
-        this.$message.error("登录失败，请重新扫描二维码登录");
+        this.$message({
+          showClose: true,
+          message: "登录失败，请重新扫描二维码登录",
+          type: "error"
+        });
         return;
       });
   }
 
-  // Generate QRCode
+  /* Generate QRCode */
   generateQRcode(text: string) {
     QRCode.toDataURL(text, {
       margin: 3,
@@ -162,9 +178,10 @@ export default class Home extends Vue {
       });
   }
 
-  // Storage token
+  /* LogIn Cached Account */
   login(account: any) {
     this.$confirm(`确认登录 ID 为「${account.screenName}」的账号吗？`, "提示", {
+      showClose: false,
       confirmButtonText: "确认",
       cancelButtonText: "取消",
       type: "warning"
@@ -174,6 +191,7 @@ export default class Home extends Vue {
         const accessToken = account.accessToken;
         const refreshToken = account.refreshToken;
 
+        /* Get Cached Sessions */
         if (this.storageToken.length === 1) {
           localStorage.setItem("idToken", idToken);
           localStorage.setItem("accessToken", accessToken);
@@ -205,7 +223,7 @@ export default class Home extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 div.home {
   display: flex;
   justify-content: center;
@@ -214,138 +232,154 @@ div.home {
   height: 500px;
   width: 100%;
   overflow-y: auto;
+
+  div.body {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    margin: auto;
+    padding: 30px;
+
+    /* Title */
+    p.title {
+      display: block;
+      width: 100%;
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* QR Code */
+    div.qr {
+      display: block;
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
+      margin: auto;
+      background: transparent;
+      overflow: hidden;
+    }
+    div.vue-loading {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 5;
+    }
+    img.src {
+      display: block;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 4;
+    }
+    div.hover {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(255, 255, 255, 0.9);
+      z-index: 5;
+
+      & > span {
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.8;
+        padding: 10px 15px;
+        color: #000;
+        background-color: #fff;
+        border: 1px solid #e1e2e3;
+      }
+    }
+
+    /* Notice */
+    p.notice {
+      display: block;
+      margin-top: 15px;
+      width: 100%;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.6;
+      text-align: left;
+
+      & > span {
+        color: #cdcdcd;
+        text-decoration: line-through;
+      }
+
+      span.display {
+        color: #000;
+        text-decoration: none;
+      }
+    }
+
+    /* Cached Account(s) */
+    div.account {
+      display: block;
+      margin-top: 20px;
+      width: 100%;
+      font-size: 0;
+      text-align: center;
+
+      & > h3 {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 1.6;
+      }
+
+      & > i {
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: middle;
+        height: 50px;
+        width: 50px;
+        margin: 0 5px 10px 5px;
+        border: 1px solid #e1e2e3;
+        border-radius: 50%;
+        background: center no-repeat;
+        background-size: cover;
+      }
+    }
+  }
 }
 
-div.home-center {
-  display: block;
-  width: 100%;
-  max-width: 280px;
-  margin: auto;
-  padding: 30px;
-}
+div.home.dark {
+  div.body {
+    p.notice {
+      & > span {
+        color: #999;
+      }
 
-/* 标题 */
-p.home-center-title {
-  display: block;
-  width: 100%;
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 1.6;
-  margin-bottom: 15px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+      span.display {
+        color: #fff;
+      }
+    }
 
-/* 二维码 */
-div.home-center-qr {
-  display: block;
-  position: relative;
-  width: 100%;
-  padding-top: 100%;
-  margin: auto;
-  background: transparent;
-  overflow: hidden;
-}
-div.vue-loading {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 5;
-}
-img.home-center-qr-src {
-  display: block;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 4;
-}
-div.home-center-qr-hover {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: rgba(255, 255, 255, 0.9);
-  z-index: 5;
-}
-div.home-center-qr-hover > span {
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.8;
-  padding: 10px 15px;
-  color: #000;
-  background-color: #fff;
-  border: 1px solid #e1e2e3;
-}
-
-/* 使用说明 */
-p.home-center-tips {
-  display: block;
-  margin-top: 15px;
-  width: 100%;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.6;
-  text-align: left;
-}
-p.home-center-tips > span {
-  color: #cdcdcd;
-  text-decoration: line-through;
-}
-div.home.dark p.home-center-tips > span {
-  color: #999;
-}
-p.home-center-tips > span.display {
-  color: #000;
-  text-decoration: none;
-}
-div.home.dark p.home-center-tips > span.display {
-  color: #fff;
-}
-
-/* 缓存账号检测 */
-div.home-center-storage-account {
-  display: block;
-  margin-top: 20px;
-  width: 100%;
-  font-size: 0;
-  text-align: center;
-}
-div.home-center-storage-account > h3 {
-  display: block;
-  margin-bottom: 15px;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 1.6;
-}
-div.home-center-storage-account > i {
-  cursor: pointer;
-  display: inline-block;
-  vertical-align: middle;
-  height: 50px;
-  width: 50px;
-  margin: 0 5px 10px 5px;
-  border: 1px solid #e1e2e3;
-  border-radius: 50%;
-  background: center no-repeat;
-  background-size: cover;
-}
-div.home.dark div.home-center-storage-account > i {
-  background-color: #262626;
-  border-color: #262626;
+    div.account {
+      & > i {
+        background-color: #262626;
+        border-color: #262626;
+      }
+    }
+  }
 }
 </style>

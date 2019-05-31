@@ -35,7 +35,7 @@ div.notification-left {
       vertical-align: middle;
       height: 35px;
       width: 35px;
-      border: 0;
+      border: 1px solid #e4e7ed;
       border-radius: 50%;
       background: #e4e7ed center no-repeat;
       background-size: cover;

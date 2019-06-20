@@ -39,7 +39,7 @@
       </div>
 
       <!-- LoadingMore Animation -->
-      <meow-loading v-if="isLoadMoreKeyEnabled" style="margin-top: 0"/>
+      <meow-loading v-if="isLoadingMoreKey" style="margin-top: 0"/>
 
       <!-- No data  -->
       <div class="empty" v-if="!isGettingFollowerList && data.length <= 0">

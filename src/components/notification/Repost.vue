@@ -20,5 +20,5 @@ import ThreeRight from "@/components/notification_actionItem/ThreeRight.vue";
   props: ["data"],
   components: { Container, ThreeLeft, ThreeCenter, ThreeRight }
 })
-export default class Home extends Vue {}
+export default class Repost extends Vue {}
 </script>

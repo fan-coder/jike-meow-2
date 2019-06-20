@@ -14,7 +14,7 @@ import ThreeRight from "@/components/notification_actionItem/ThreeRight.vue";
   props: ["data"],
   components: { TwoLeft, ThreeRight }
 })
-export default class Home extends Vue {}
+export default class UpvoteAnswer extends Vue {}
 </script>
 
 <style scoped>

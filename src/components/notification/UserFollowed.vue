@@ -19,7 +19,7 @@ import ThreeCenter from "@/components/notification_actionItem/ThreeCenter.vue";
   props: ["data"],
   components: { Container, ThreeLeft, ThreeCenter }
 })
-export default class Home extends Vue {}
+export default class UserFollowed extends Vue {}
 </script>
 
 <style lang="scss" scoped>

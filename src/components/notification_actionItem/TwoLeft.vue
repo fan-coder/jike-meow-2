@@ -33,7 +33,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({
   props: ["data", "actionDescription"]
 })
-export default class Home extends Vue {}
+export default class TwoLeft extends Vue {}
 </script>
 
 <style lang="scss" scoped>

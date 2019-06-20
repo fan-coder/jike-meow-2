@@ -15,5 +15,5 @@ import ThreeRight from "@/components/notification_actionItem/ThreeRight.vue";
   props: ["data"],
   components: { Container, TwoLeft, ThreeRight }
 })
-export default class Home extends Vue {}
+export default class LikeComment extends Vue {}
 </script>

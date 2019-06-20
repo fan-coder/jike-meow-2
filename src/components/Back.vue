@@ -13,7 +13,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({
   props: ["title"]
 })
-export default class Home extends Vue {}
+export default class Back extends Vue {}
 </script>
 
 <style lang="scss" scoped>

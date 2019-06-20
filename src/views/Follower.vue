@@ -75,7 +75,7 @@ import Back from "@/components/Back.vue";
 @Component({
   components: { Back }
 })
-export default class Home extends Vue {
+export default class Follower extends Vue {
   isGettingFollowerList: boolean = true;
   isLoadMoreKeyEnabled: boolean = false;
   isLoadingMoreKey: boolean = false;

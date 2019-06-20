@@ -22,16 +22,16 @@ import api from "@/api";
 import func from "@/function";
 
 import Header from "@/components/Header.vue";
-import Profile from "@/components/me/profile.vue";
-import Bio from "@/components/me/bio.vue";
-import Follow from "@/components/me/follow.vue";
-import Theme from "@/components/me/theme.vue";
-import LogOut from "@/components/me/logout.vue";
+import Profile from "@/components/me/Profile.vue";
+import Bio from "@/components/me/Bio.vue";
+import Follow from "@/components/me/Follow.vue";
+import Theme from "@/components/me/Theme.vue";
+import LogOut from "@/components/me/Logout.vue";
 
 @Component({
   components: { Header, Profile, Bio, Follow, Theme, LogOut }
 })
-export default class Home extends Vue {
+export default class Me extends Vue {
   isGettingProfileData: boolean = true;
   data: any = {};
 

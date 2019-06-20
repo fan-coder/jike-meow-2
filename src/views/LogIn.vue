@@ -56,7 +56,7 @@ import QRCode from "qrcode";
 import api from "@/api";
 
 @Component
-export default class Home extends Vue {
+export default class LogIn extends Vue {
   isQRcodeGenerating: boolean = false;
   isWaitingForLogin: boolean = false;
   dataQRcode: string = "";

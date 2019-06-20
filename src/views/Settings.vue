@@ -50,7 +50,7 @@ import Back from "@/components/Back.vue";
     Back
   }
 })
-export default class Home extends Vue {
+export default class Settings extends Vue {
   isGettingProfileData: boolean = true;
   currentUsername: string = "";
   accountList: Array<object> = [];

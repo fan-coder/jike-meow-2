@@ -91,7 +91,7 @@ import UserFollowed from "@/components/notification/UserFollowed.vue";
     UserFollowed
   }
 })
-export default class Home extends Vue {
+export default class Notification extends Vue {
   isGettingNotificationList: boolean = true;
   isLoadMoreKeyEnabled: boolean = false;
   isLoadingMoreKey: boolean = false;

@@ -13,15 +13,15 @@
 </template>
 
 <script lang="ts">
-import chrome from "@/function/chrome";
 import { Component, Vue, Watch } from "vue-property-decorator";
+import chrome from "@/function/chrome";
 import Header from "@/components/Header.vue";
 import Block from "@/components/tools/Block.vue";
 
 @Component({
   components: { Header, Block }
 })
-export default class Home extends Vue {
+export default class Tools extends Vue {
   storeToken() {
     chrome.storeToken();
   }

@@ -25,6 +25,7 @@ export default {
           message: "授权过期，请重新登录",
           type: "error"
         });
+        
         localStorage.clear();
         router.push("/");
       });

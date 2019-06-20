@@ -11,7 +11,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({
   props: ["data"]
 })
-export default class Home extends Vue {}
+export default class ThreeRight extends Vue {}
 </script>
 
 <style scoped>

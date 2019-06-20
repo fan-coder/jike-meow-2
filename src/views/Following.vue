@@ -39,7 +39,7 @@
       </div>
 
       <!-- LoadingMore Animation -->
-      <meow-loading v-if="isLoadMoreKeyEnabled" style="margin-top: 0"/>
+      <meow-loading v-if="isLoadingMoreKey" style="margin-top: 0"/>
 
       <!-- No data  -->
       <div class="empty" v-if="!isGettingFollowingList && data.length <= 0">
@@ -75,7 +75,7 @@ import Back from "@/components/Back.vue";
 @Component({
   components: { Back }
 })
-export default class Home extends Vue {
+export default class Following extends Vue {
   isGettingFollowingList: boolean = true;
   isLoadMoreKeyEnabled: boolean = false;
   isLoadingMoreKey: boolean = false;

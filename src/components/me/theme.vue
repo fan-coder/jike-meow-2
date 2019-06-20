@@ -9,7 +9,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Home extends Vue {
+export default class Theme extends Vue {
   /* Update Theme */
   updateTheme(e: boolean) {
     this.$store.commit({

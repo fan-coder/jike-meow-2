@@ -9,7 +9,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Home extends Vue {
+export default class Logout extends Vue {
   /* Log Out */
   logOut() {
     this.$confirm("确认退出？", "警告", {

@@ -45,12 +45,20 @@ export default {
           })
           .catch(() => {});
       } else {
-        Message({
-          showClose: true,
-          message: "请先在浏览器中打开网页版即刻",
-          type: "error"
+        // Open official website
+        window.open("https://web.okjike.com");
+
+        // Set data to chrome.storage
+        chrome.storage.local.set({
+          "auth-token": localStorage["refreshToken"],
+          "access-token": localStorage["accessToken"],
+          "token-timestamp": func.generateTimestamp(new Date())
         });
-        return;
+
+        // Run content script
+        chrome.storage.local.set({
+          "auto-login": true
+        });
       }
     });
   }

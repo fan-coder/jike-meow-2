@@ -15,5 +15,5 @@ import ThreeRight from "@/components/notification_actionItem/ThreeRight.vue";
   components: { Container, TwoLeft, ThreeRight },
   props: ["data"]
 })
-export default class Home extends Vue {}
+export default class LikeAvatar extends Vue {}
 </script>

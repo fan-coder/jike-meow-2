@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "即刻喵 2",
-  "version": "2.0.0.10",
+  "version": "2.0.0.11",
   "author": "coder-ysj",
   "description": "最好用的「即刻」非官方浏览器插件.",
   "incognito": "not_allowed",

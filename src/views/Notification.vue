@@ -66,6 +66,9 @@ import Repost from "@/components/notification/Repost.vue";
 import Unknown from "@/components/notification/Unknown.vue";
 import UpvoteAnswer from "@/components/notification/UpvoteAnswer.vue";
 import UserFollowed from "@/components/notification/UserFollowed.vue";
+import LikeStory from "@/components/notification/LikeStory.vue";
+import CommentStory from "@/components/notification/CommentStory.vue";
+import RepliedToStoryComment from "@/components/notification/RepliedToStoryComment.vue";
 
 @Component({
   components: {
@@ -88,7 +91,10 @@ import UserFollowed from "@/components/notification/UserFollowed.vue";
     Repost,
     Unknown,
     UpvoteAnswer,
-    UserFollowed
+    UserFollowed,
+    LikeStory,
+    CommentStory,
+    RepliedToStoryComment
   }
 })
 export default class Notification extends Vue {
@@ -149,6 +155,15 @@ export default class Notification extends Vue {
     },
     USER_FOLLOWED: {
       component: UserFollowed
+    },
+    LIKE_STORY: {
+      component: LikeStory
+    },
+    COMMENT_STORY: {
+      component: CommentStory
+    },
+    REPLIED_TO_STORY_COMMENT: {
+      component: RepliedToStoryComment
     }
   };
   notificationList: Array<object> = [];

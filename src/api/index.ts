@@ -27,7 +27,7 @@ export default {
       {
         headers: {
           "x-jike-access-token": localStorage["accessToken"],
-          "app-version": "5.6.2"
+          "app-version": "6.0.0"
         }
       }
     ),

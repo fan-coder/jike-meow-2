@@ -40,7 +40,10 @@ export default {
       DATA.type === "COMMENT_ANSWER" ||
       DATA.type === "LIKE_AVATAR" ||
       DATA.type === "LIKE_QUESTION" ||
-      DATA.type === "UPVOTE_ANSWER"
+      DATA.type === "UPVOTE_ANSWER" ||
+      DATA.type === 'LIKE_STORY' ||
+      DATA.type === 'COMMENT_STORY' ||
+      DATA.type === 'REPLIED_TO_STORY_COMMENT'
     ) {
       Message({
         showClose: true,
